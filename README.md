@@ -8,7 +8,7 @@ WIP
 
 ## How it works ?
 
-* The chessopening app is made with [angular-electron](https://github.com/maximegris/angular-electron) that is a framework to create desktop apps with web based languages
+* The chessopening app is made with [angular-electron](https://github.com/maximegris/angular-electron) this framework allow you to create desktop apps with web based languages
 
 * The chess board is made with the [chessboard.js](https://github.com/oakmac/chessboardjs) open source project
 
