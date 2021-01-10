@@ -1,0 +1,12 @@
+/* .container {
+    
+} */
+
+.board-container {
+    display: flex;
+    justify-content: center;
+}
+
+.board {
+    margin-right: 30px;
+}

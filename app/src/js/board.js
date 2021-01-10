@@ -1,16 +1,11 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// No Node.js APIs are available in this process because
-// `nodeIntegration` is turned off. Use `preload.js` to
-// selectively enable features needed in the rendering
-// process.
-
+//* Init variables
 var board = null
 var game = new Chess()
 var $status = $('#status')
 var $fen = $('#fen')
 var $pgn = $('#pgn')
 
+//* Chess board logic
 function onDragStart(source, piece, position, orientation) {
     // do not pick up pieces if the game is over
     if (game.game_over()) return false
@@ -82,6 +77,18 @@ var config = {
     onDrop: onDrop,
     onSnapEnd: onSnapEnd
 }
-board = Chessboard('board', config)
 
+//* On click
+$('#start-position').on("click", function () {
+    board = null
+    game = new Chess()
+    $status = $('#status')
+    $fen = $('#fen')
+    $pgn = $('#pgn')
+    board = Chessboard('board', config)
+    updateStatus()
+});
+
+//* Set chess board
+board = Chessboard('board', config)
 updateStatus()
