@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
 import { AnalyseBoardComponent } from './pages/analyse-board/analyse-board.component';
 
 
-
 @NgModule({
-  declarations: [AnalyseBoardComponent],
+  declarations: [
+    AnalyseBoardComponent
+  ],
   imports: [
     CommonModule,
     AppRoutingModule,

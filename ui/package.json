@@ -40,7 +40,6 @@
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "lint": "ng lint"
   },
-  "dependencies": {},
   "devDependencies": {
     "@angular-builders/custom-webpack": "10.0.1",
     "@angular-devkit/build-angular": "0.1100.3",
@@ -102,5 +101,8 @@
   },
   "browserslist": [
     "chrome 83"
-  ]
+  ],
+  "dependencies": {
+    "@chrisoakman/chessboardjs": "1.0.0"
+  }
 }
