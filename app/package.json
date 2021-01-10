@@ -4,7 +4,8 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "server": ""
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -18,5 +19,8 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^11.1.1"
+  },
+  "dependencies": {
+    "@chrisoakman/chessboardjs": "^1.0.0"
   }
 }
