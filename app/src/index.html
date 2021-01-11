@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8">
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
@@ -9,7 +8,8 @@
 
   <!-- Chess Board -->
   <link rel="stylesheet" href="chessboardjs/lib/chessboard.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/position.css">
+  <link rel="stylesheet" href="css/button.css">
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="chessboardjs/website/js/jquery-3.4.1.min.js"></script>
   <script src="chessboardjs/lib/chessboard.js"></script>
@@ -18,14 +18,15 @@
 </head>
 
 <body>
-  works!
   <div class="container">
     <div class="board-container">
       <!-- Chess Board -->
       <div class="board" id="board" style="width: 600px"></div>
   
-      <div class="position-container">
+      <div class="moves-container">
         <button class="start-position" id="start-position">Start Position</button>
+        <span class="text-moves">Moves</span>
+        <div class="moves" id="moves"></div>
       </div>
     </div>
   </div>
@@ -35,8 +36,6 @@
   <script src="../node_modules/chess.js/chess.js"></script>
 
   <!-- Js files -->
-  <script src="js/board.js"></script>
-  <script src="js/position.js"></script>
+  <script type="module" src="./renderer.js"></script>
 </body>
-
 </html>
