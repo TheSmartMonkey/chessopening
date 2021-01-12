@@ -1,4 +1,4 @@
-import { addMove, clearMove } from "./js/moves.js";
+import { addMove, clearMove, logMove } from "./js/moves.js";
 
 //* Init variables
 var board = null
@@ -31,8 +31,8 @@ export function onDrop(source, target) {
     // Illegal move
     if (move === null) return 'snapback'
 
-    // Log the move
-    if (move !== null) moves.push(move)
+    // Moves positions
+    moves = logMove(move, moves)
     addMove(move.san)
 
     updateStatus()

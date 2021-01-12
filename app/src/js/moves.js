@@ -7,3 +7,11 @@ export function clearMove() {
     const moves = document.getElementById('moves')
     moves.innerHTML = ''
 }
+
+export function logMove(move, moves) {
+    if (move !== null) {
+        // move['fen'] = game.fen()
+        moves.push(move)
+        return moves
+    }
+}
