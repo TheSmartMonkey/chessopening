@@ -1,4 +1,4 @@
-import { addMove, clearMove, logMove } from "./js/moves.js";
+import { addMove, addAllMoves, clearMove, logMove } from "./js/moves.js";
 
 //* Init variables
 var board = null
@@ -7,9 +7,10 @@ var $status = $('#status')
 var $fen = $('#fen')
 var $pgn = $('#pgn')
 var moves = []
+var currentMoveID = 0
 
 //* Chess board logic
-export function onDragStart(source, piece, position, orientation) {
+function onDragStart(source, piece, position, orientation) {
     // Do not pick up pieces if the game is over
     if (game.game_over()) return false
 
@@ -20,7 +21,7 @@ export function onDragStart(source, piece, position, orientation) {
     }
 }
 
-export function onDrop(source, target) {
+function onDrop(source, target) {
     // See if the move is legal
     var move = game.move({
         from: source,
@@ -32,19 +33,20 @@ export function onDrop(source, target) {
     if (move === null) return 'snapback'
 
     // Moves positions
-    moves = logMove(move, moves)
-    addMove(move.san)
+    moves = logMove(game, move, moves)
+    addMove(move)
+    currentMoveID = moves.length - 1
 
     updateStatus()
 }
 
 // Update the board position after the piece snap
 // For castling, en passant, pawn promotion
-export function onSnapEnd() {
+function onSnapEnd() {
     board.position(game.fen())
 }
 
-export function updateStatus() {
+function updateStatus() {
     var status = ''
 
     var moveColor = 'White'
@@ -77,18 +79,6 @@ export function updateStatus() {
     $pgn.html(game.pgn())
 }
 
-//* On click
-$('#start-position').on("click", function () {
-    board = null
-    game = new Chess()
-    $status = $('#status')
-    $fen = $('#fen')
-    $pgn = $('#pgn')
-    board = Chessboard('board', config)
-    updateStatus()
-    clearMove()
-});
-
 //* Set chess board
 var config = {
     draggable: true,
@@ -100,3 +90,44 @@ var config = {
 
 board = Chessboard('board', config)
 updateStatus()
+
+//* On click
+function resetVariables() {
+    board = null
+    game = new Chess()
+    $status = $('#status')
+    $fen = $('#fen')
+    $pgn = $('#pgn')
+    moves = []
+    currentMoveID = 0
+}
+
+$('#start-position').on("click", function () {
+    resetVariables()
+    board = Chessboard('board', config)
+    updateStatus()
+    clearMove()
+});
+
+$('#back').on("click", function () {
+    // Store moves
+    const m = moves
+    const id = currentMoveID
+    resetVariables()
+
+    if (id < 1) {
+        currentMoveID = id
+        config.position = 'start'
+    } else {
+        m.pop()
+        moves = m
+        currentMoveID = id - 1
+        config.position = m[currentMoveID].fen
+        game.load(config.position)
+    }
+
+    board = Chessboard('board', config)
+    updateStatus()
+    clearMove()
+    addAllMoves(moves)
+});

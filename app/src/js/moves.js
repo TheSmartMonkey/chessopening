@@ -1,6 +1,14 @@
+//* Position list
 export function addMove(move) {
-    const moves = document.getElementById('moves')
-    moves.innerHTML += '<button class="btn btn-grey">' + move +'</button>'
+    const movesDiv = document.getElementById('moves')
+    movesDiv.innerHTML += '<button class="btn btn-grey">' + move.san +'</button>'
+}
+
+export function addAllMoves(moves) {
+    const movesDiv = document.getElementById('moves')
+    for (const move of moves) {
+        movesDiv.innerHTML += '<button class="btn btn-grey">' + move.san +'</button>'
+    }
 }
 
 export function clearMove() {
@@ -8,10 +16,29 @@ export function clearMove() {
     moves.innerHTML = ''
 }
 
-export function logMove(move, moves) {
+export function logMove(game, move, moves) {
     if (move !== null) {
-        // move['fen'] = game.fen()
+        move['fen'] = game.fen()
         moves.push(move)
         return moves
     }
 }
+
+//* Go to next move buttons
+export function nextMove(game, currentMoveID, moves) {
+    game.load(moves[currentMoveID + 1])
+}
+
+export function previousMove(game, currentMoveID, moves) {
+    game.load(moves[currentMoveID - 1])
+    console.log('moves: ', moves);
+    console.log('TEST: ', moves[currentMoveID - 1]);
+}
+
+// export function fistrMove(game) {
+//     game.start
+// }
+
+// export function lastMove() {
+    
+// }

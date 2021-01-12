@@ -14,9 +14,18 @@
 }
 
 /* Moves */
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-sep {
+    margin-right: 20px;
+}
+
 .text-moves {
     display: block;
-    margin: 50px 0 10px 0;
+    margin-bottom: 10px;
 }
 
 .moves {
@@ -24,4 +33,5 @@
     height: 486px;
     max-width: 320px;
     min-width: 320px;
+    margin-bottom: 30px;
 }
