@@ -1,4 +1,4 @@
-import { addMove, addAllMoves, clearMove, logMove } from "./js/moves.js";
+import { addAllMoves, clearMove, logMove } from "./js/moves.js";
 
 //* Init variables
 var board = null
@@ -7,7 +7,7 @@ var $status = $('#status')
 var $fen = $('#fen')
 var $pgn = $('#pgn')
 var moves = []
-var currentMoveID = 0
+var currentMoveID = -1
 
 //* Chess board logic
 function onDragStart(source, piece, position, orientation) {
@@ -34,8 +34,9 @@ function onDrop(source, target) {
 
     // Moves positions
     moves = logMove(game, move, moves)
-    addMove(move)
-    currentMoveID = moves.length - 1
+    clearMove()
+    addAllMoves(moves)
+    currentMoveID = currentMoveID + 1
 
     updateStatus()
 }
@@ -102,11 +103,32 @@ function resetVariables() {
     currentMoveID = 0
 }
 
-$('#start-position').on("click", function () {
+$('#start').on("click", function () {
+    const m = moves
+    const id = currentMoveID
     resetVariables()
+
+    moves = m
+    currentMoveID = id
     board = Chessboard('board', config)
     updateStatus()
     clearMove()
+});
+
+$('#end').on("click", function () {
+    const m = moves
+    const id = currentMoveID
+    resetVariables()
+
+    moves = m
+    currentMoveID = id
+    config.position = m[currentMoveID].fen
+    game.load(config.position)
+    board = Chessboard('board', config)
+
+    updateStatus()
+    clearMove()
+    addAllMoves(moves)
 });
 
 $('#back').on("click", function () {
@@ -119,14 +141,38 @@ $('#back').on("click", function () {
         currentMoveID = id
         config.position = 'start'
     } else {
-        m.pop()
-        moves = m
         currentMoveID = id - 1
         config.position = m[currentMoveID].fen
-        game.load(config.position)
     }
 
+    moves = m
+    game.load(config.position)
     board = Chessboard('board', config)
+    updateStatus()
+    clearMove()
+    addAllMoves(moves)
+});
+
+$('#next').on("click", function () {
+    // Store moves
+    const m = moves
+    const id = currentMoveID
+    resetVariables()
+
+    if (m.length != 0) {
+        if (id + 1 > m.length - 1) {
+            currentMoveID = id
+        } else {
+            currentMoveID = id + 1
+        }
+        moves = m
+        config.position = m[currentMoveID].fen
+        game.load(config.position)
+        board = Chessboard('board', config)
+    } else {
+        currentMoveID = -1
+    }
+
     updateStatus()
     clearMove()
     addAllMoves(moves)

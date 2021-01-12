@@ -1,9 +1,4 @@
 //* Position list
-export function addMove(move) {
-    const movesDiv = document.getElementById('moves')
-    movesDiv.innerHTML += '<button class="btn btn-grey">' + move.san +'</button>'
-}
-
 export function addAllMoves(moves) {
     const movesDiv = document.getElementById('moves')
     for (const move of moves) {
