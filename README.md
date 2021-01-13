@@ -18,4 +18,4 @@ WIP
 
 * Integrate a computer analyse like [stockfish](https://github.com/mcostalba/Stockfish)
 
-* Import games from chass.com or lichess with [openingtree](https://github.com/openingtree/openingtree)
+* Import games from chess.com or lichess with [openingtree](https://github.com/openingtree/openingtree)

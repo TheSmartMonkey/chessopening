@@ -1,0 +1,37 @@
+/* Global */
+.container {
+    margin-top: 100px;
+}
+
+/* Board */
+.board-container {
+    display: flex;
+    justify-content: center;
+}
+
+.board {
+    margin-right: 30px;
+}
+
+/* Moves */
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-sep {
+    margin-right: 20px;
+}
+
+.text-moves {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.moves {
+    overflow-y: scroll;
+    height: 486px;
+    max-width: 320px;
+    min-width: 320px;
+    margin-bottom: 30px;
+}
