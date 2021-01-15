@@ -1,7 +1,7 @@
 /* Simple Button */
 
 /* Position button */
-.btn {
+.btn1 {
     padding: 16px 50px;
     width: 140px;
     text-align: center;
@@ -12,14 +12,49 @@
     cursor: pointer;
 }
 
-.btn-grey {
+.btn1-grey {
     background-color: white;
     color: black;
     border: 2px solid #e7e7e7;
 }
 
-.btn-grey:hover {
+.btn1-grey:hover {
     background-color: #e7e7e7;
+}
+
+.btn2 {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn2-green {
+    background-color: #4CAF50;
+}
+
+.btn2-green:hover {
+    background-color: #3e8e41;
+}
+
+.btn2-red {
+    background-color: #ff1a1a;
+}
+
+.btn2-red:hover {
+    background-color: #cc0000;
+}
+
+.btn2-blue {
+    background-color: #1a75ff;
+}
+
+.btn2-blue:hover {
+    background-color: #0052cc;
 }
 
 /* Icon button */

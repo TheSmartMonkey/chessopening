@@ -27,24 +27,12 @@
         <!-- Move locations -->
         <span class="text-moves">Moves</span>
         <div class="moves" id="moves"></div>
-
-        <!-- Move buttons -->
-        <div class="buttons">
-          <button id="start" class="btn-icon btn-sep">
-            <img src="assets/rewind.png" alt="start" width="32" height="32">
-          </button>
-          <button id="back" class="btn-icon btn-sep">
-            <img src="assets/back.png" alt="back" width="32" height="32">
-          </button>
-          <button id="next" class="btn-icon btn-sep">
-            <img src="assets/next.png" alt="next" width="32" height="32">
-          </button>
-          <button id="end" class="btn-icon">
-            <img src="assets/fast-forward.png" alt="end" width="32" height="32">
-          </button>
-        </div>
       </div>
     </div>
+    <div class="action">
+      <button id="reset" class="btn2 btn2-green">Reset Board</button>
+    </div>
+    <div class="action" id="move-status"></div>
   </div>
 
   <!-- Librairies -->
@@ -52,6 +40,6 @@
   <script src="../node_modules/chess.js/chess.js"></script>
 
   <!-- Js files -->
-  <script type="module" src="./renderer.js"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>

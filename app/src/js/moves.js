@@ -1,8 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+
 //* Position list
 export function addAllMoves(moves) {
     const movesDiv = document.getElementById('moves')
     for (const move of moves) {
-        movesDiv.innerHTML += '<button class="btn btn-grey">' + move.san +'</button>'
+        movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move.san +'</button>'
     }
 }
 
@@ -19,21 +22,9 @@ export function logMove(game, move, moves) {
     }
 }
 
-//* Go to next move buttons
-export function nextMove(game, currentMoveID, moves) {
-    game.load(moves[currentMoveID + 1])
+//* Training
+export function getOpeningMoves() {
+    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
+    const moves = JSON.parse(rawdata).white[0].moves;
+    return moves
 }
-
-export function previousMove(game, currentMoveID, moves) {
-    game.load(moves[currentMoveID - 1])
-    console.log('moves: ', moves);
-    console.log('TEST: ', moves[currentMoveID - 1]);
-}
-
-// export function fistrMove(game) {
-//     game.start
-// }
-
-// export function lastMove() {
-    
-// }

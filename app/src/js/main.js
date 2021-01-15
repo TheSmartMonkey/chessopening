@@ -1,4 +1,4 @@
-import { addAllMoves, clearMove, logMove } from "./js/moves.js";
+import { addAllMoves, clearMove, logMove, getOpeningMoves } from "./moves.js";
 
 //* Init variables
 var board = null
@@ -7,6 +7,7 @@ var $status = $('#status')
 var $fen = $('#fen')
 var $pgn = $('#pgn')
 var moves = []
+var training = getOpeningMoves()
 var currentMoveID = -1
 
 //* Chess board logic
@@ -37,6 +38,10 @@ function onDrop(source, target) {
     clearMove()
     addAllMoves(moves)
     currentMoveID = currentMoveID + 1
+
+    // Training
+    updateStatus()
+    trainOpening()
 
     updateStatus()
 }
@@ -80,6 +85,59 @@ function updateStatus() {
     $pgn.html(game.pgn())
 }
 
+//* Reset Board
+function resetGame() {
+    board = null
+    game = new Chess()
+    $status = $('#status')
+    $fen = $('#fen')
+    $pgn = $('#pgn')
+}
+
+function updateBoard() {
+    game.load(config.position)
+    board = Chessboard('board', config)
+    updateStatus()
+    clearMove()
+    addAllMoves(moves)
+}
+
+//* Training
+function verifyMove(correctMove) {
+    const moveStatus = document.getElementById('move-status')
+    const playedMove = moves[currentMoveID].fen
+
+    if (moves.length == training.length) {
+        moveStatus.className = 'action correct'
+        moveStatus.innerHTML = 'CONGRATULATION'
+    } else if (playedMove == correctMove) {
+        moveStatus.className = 'action correct'
+        moveStatus.innerHTML = 'CORRECT'
+        return true
+    } else {
+        moveStatus.className = 'action not-correct'
+        moveStatus.innerHTML = 'NOT CORRECT'
+        return false
+    } 
+}
+
+function trainOpening() {
+    const m = training[currentMoveID]
+    const correct = verifyMove(m.fen)
+    resetGame()
+
+    if (correct) {
+        config.position = m.fen
+    } else {
+        moves = []
+        currentMoveID = -1
+        config.position = 'start'
+    }
+
+    game.load(config.position)
+    board = Chessboard('board', config)
+};
+
 //* Set chess board
 var config = {
     draggable: true,
@@ -93,87 +151,18 @@ board = Chessboard('board', config)
 updateStatus()
 
 //* On click
-function resetVariables() {
-    board = null
-    game = new Chess()
-    $status = $('#status')
-    $fen = $('#fen')
-    $pgn = $('#pgn')
+$('#reset').on("click", function () {
+    const moveStatus = document.getElementById('move-status')
+    resetGame()
+
+    // Reset Moves
     moves = []
-    currentMoveID = 0
-}
+    currentMoveID = -1
 
-$('#start').on("click", function () {
-    const m = moves
-    const id = currentMoveID
-    resetVariables()
+    // Reset training message
+    moveStatus.innerHTML = ''
 
-    moves = m
-    currentMoveID = id
-    board = Chessboard('board', config)
-    updateStatus()
-    clearMove()
-});
-
-$('#end').on("click", function () {
-    const m = moves
-    const id = currentMoveID
-    resetVariables()
-
-    moves = m
-    currentMoveID = id
-    config.position = m[currentMoveID].fen
-    game.load(config.position)
-    board = Chessboard('board', config)
-
-    updateStatus()
-    clearMove()
-    addAllMoves(moves)
-});
-
-$('#back').on("click", function () {
-    // Store moves
-    const m = moves
-    const id = currentMoveID
-    resetVariables()
-
-    if (id < 1) {
-        currentMoveID = id
-        config.position = 'start'
-    } else {
-        currentMoveID = id - 1
-        config.position = m[currentMoveID].fen
-    }
-
-    moves = m
-    game.load(config.position)
-    board = Chessboard('board', config)
-    updateStatus()
-    clearMove()
-    addAllMoves(moves)
-});
-
-$('#next').on("click", function () {
-    // Store moves
-    const m = moves
-    const id = currentMoveID
-    resetVariables()
-
-    if (m.length != 0) {
-        if (id + 1 > m.length - 1) {
-            currentMoveID = id
-        } else {
-            currentMoveID = id + 1
-        }
-        moves = m
-        config.position = m[currentMoveID].fen
-        game.load(config.position)
-        board = Chessboard('board', config)
-    } else {
-        currentMoveID = -1
-    }
-
-    updateStatus()
-    clearMove()
-    addAllMoves(moves)
+    // Reset config
+    config.position = 'start'
+    updateBoard()
 });

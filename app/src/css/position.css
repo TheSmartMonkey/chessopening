@@ -35,3 +35,18 @@
     min-width: 320px;
     margin-bottom: 30px;
 }
+
+/* Actions */
+.action {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.correct {
+    color: #4CAF50;
+}
+
+.not-correct {
+    color: #ff1a1a;
+}
