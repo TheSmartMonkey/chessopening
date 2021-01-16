@@ -20,7 +20,31 @@
 </head>
 
 <body>
-  <div class="container">
+  <!-- Sidebar -->
+  <div class="w3-sidebar sidenav w3-bar-block">
+    <!-- Modal create opening -->
+    <div class="w3-container modal-container">
+      <button onclick="document.getElementById('id01').style.display='block'" id="opening-modal"
+        class="btn2 btn2-green">Create Opening</button>
+
+      <div id="id01" class="w3-modal">
+        <div class="w3-modal-content">
+          <header class="w3-container w3-teal">
+            <span onclick="document.getElementById('id01').style.display='none'"
+              class="w3-button w3-display-topright">&times;</span>
+            <h2>Modal Header</h2>
+          </header>
+          <div class="w3-container">
+            <p>Some text..</p>
+            <p>Some text..</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main page -->
+  <div class="w3-container container">
     <h1 class="opening-title">ruy lopez</h1>
     <div class="board-container">
       <!-- Chess Board -->
@@ -36,26 +60,6 @@
       <button id="reset" class="btn2 btn2-green">Reset Board</button>
     </div>
     <div class="action" id="move-status"></div>
-  </div>
-
-  <!-- Modal create opening -->
-  <div class="w3-container">
-    <button onclick="document.getElementById('id01').style.display='block'" id="opening-modal"
-      class="btn2 btn2-green">Create Opening</button>
-
-    <div id="id01" class="w3-modal">
-      <div class="w3-modal-content">
-        <header class="w3-container w3-teal">
-          <span onclick="document.getElementById('id01').style.display='none'"
-            class="w3-button w3-display-topright">&times;</span>
-          <h2>Modal Header</h2>
-        </header>
-        <div class="w3-container">
-          <p>Some text..</p>
-          <p>Some text..</p>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- Librairies -->
