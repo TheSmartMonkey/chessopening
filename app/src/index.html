@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="css/position.css">
   <link rel="stylesheet" href="css/button.css">
+  <link rel="stylesheet" href="css/switch.css">
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="chessboardjs/website/js/jquery-3.4.1.min.js"></script>
   <script src="chessboardjs/lib/chessboard.js"></script>
@@ -24,19 +25,37 @@
   <div class="w3-sidebar sidenav w3-bar-block">
     <!-- Modal create opening -->
     <div class="w3-container modal-container">
-      <button onclick="document.getElementById('id01').style.display='block'" id="opening-modal"
+      <button onclick="document.getElementById('opening-modal').style.display='block'" id="open-modal"
         class="btn2 btn2-green">Create Opening</button>
 
-      <div id="id01" class="w3-modal">
+      <div id="opening-modal" class="w3-modal">
         <div class="w3-modal-content">
           <header class="w3-container w3-teal">
-            <span onclick="document.getElementById('id01').style.display='none'"
+            <span onclick="document.getElementById('opening-modal').style.display='none'"
               class="w3-button w3-display-topright">&times;</span>
-            <h2>Modal Header</h2>
+            <h2>Create Opening</h2>
           </header>
           <div class="w3-container">
-            <p>Some text..</p>
-            <p>Some text..</p>
+            <form class="w3-container form-container" method="POST">
+              <!-- Title input -->
+              <div>
+                <label>Opening Title</label>
+                <input class="w3-input w3-border w3-round" value="opening title" id="title-input" name="title-input" type="text">
+              </div>
+
+              <!-- Color switch -->
+              <span>White</span>
+              <label class="switch switch-color">
+                <input type="checkbox" id="piece-color" name="piece-color">
+                <span class="slider round"></span>
+              </label>
+              <span>Black</span>
+            </form>
+
+            <!-- Submit button -->
+            <div class="action">
+              <button id="submit-form" class="btn2 btn2-green">Create</button>
+            </div>
           </div>
         </div>
       </div>

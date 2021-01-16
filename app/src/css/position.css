@@ -13,6 +13,10 @@
     margin-top: 20px;
 }
 
+.form-container {
+    margin: 20px 0 20px 0;
+}
+
 .opening-title {
     display: flex;
     justify-content: center;
@@ -58,7 +62,7 @@
 .action {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin: 50px 0 50px 0;
 }
 
 .correct {
@@ -67,4 +71,9 @@
 
 .not-correct {
     color: #ff1a1a;
+}
+
+/* Modal */
+.switch-color {
+    margin-top: 20px;
 }
