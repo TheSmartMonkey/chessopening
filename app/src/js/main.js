@@ -1,4 +1,4 @@
-import { addAllMoves, clearMove, logMove, getOpeningMoves } from "./moves.js";
+import { addAllMoves, clearMove, logMove, getOpeningMoves, verifyMove } from "./moves.js";
 
 //* Init variables
 var board = null
@@ -103,39 +103,32 @@ function updateBoard() {
 }
 
 //* Training
-function verifyMove(correctMove) {
-    const moveStatus = document.getElementById('move-status')
-    const playedMove = moves[currentMoveID].fen
-
-    if (moves.length == training.length) {
+function trainOpening() {
+    if (training.length > moves.length + 2) {
+        const correct = verifyMove(training[currentMoveID], training, moves, currentMoveID)
+        resetGame()
+        if (correct) {
+            currentMoveID++
+            const nextMove = training[currentMoveID]
+            config.position = nextMove.fen
+            game.load(config.position)
+            board = Chessboard('board', config)
+        } else {
+            moves = []
+            currentMoveID = -1
+            config.position = 'start'
+            updateBoard()
+        }
+    } else {
+        const moveStatus = document.getElementById('move-status')
         moveStatus.className = 'action correct'
         moveStatus.innerHTML = 'CONGRATULATION'
-    } else if (playedMove == correctMove) {
-        moveStatus.className = 'action correct'
-        moveStatus.innerHTML = 'CORRECT'
-        return true
-    } else {
-        moveStatus.className = 'action not-correct'
-        moveStatus.innerHTML = 'NOT CORRECT'
-        return false
-    } 
-}
-
-function trainOpening() {
-    const m = training[currentMoveID]
-    const correct = verifyMove(m.fen)
-    resetGame()
-
-    if (correct) {
-        config.position = m.fen
-    } else {
+        resetGame()
         moves = []
         currentMoveID = -1
         config.position = 'start'
+        updateBoard()
     }
-
-    game.load(config.position)
-    board = Chessboard('board', config)
 };
 
 //* Set chess board

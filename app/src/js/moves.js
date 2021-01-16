@@ -28,3 +28,26 @@ export function getOpeningMoves() {
     const moves = JSON.parse(rawdata).white[0].moves;
     return moves
 }
+
+export function verifyMove(correctMove, training, moves, currentMoveID) {
+    const moveStatus = document.getElementById('move-status')
+    let playedMove = ''
+    if (currentMoveID == 0) {
+        playedMove = moves[currentMoveID].fen
+    } else {
+        playedMove = moves[currentMoveID - 1].fen
+    }
+
+    if (moves.length > training.length - 1) {
+        moveStatus.className = 'action correct'
+        moveStatus.innerHTML = 'CONGRATULATION'
+    } else if (playedMove == correctMove.fen) {
+        moveStatus.className = 'action correct'
+        moveStatus.innerHTML = 'CORRECT'
+        return true
+    } else {
+        moveStatus.className = 'action not-correct'
+        moveStatus.innerHTML = 'NOT CORRECT'
+    }
+    return false
+}
