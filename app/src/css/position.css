@@ -77,3 +77,10 @@
 .switch-color {
     margin: 50px 0 50px 0;
 }
+
+.error-message {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    color: #ff1a1a;
+}

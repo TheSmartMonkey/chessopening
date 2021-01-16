@@ -6,6 +6,10 @@ Desktop app that help you learn chess openings and openings variations
 
 WIP
 
+## For Developers
+
+Go to the app folder everthing is documented there
+
 ## How it works ?
 
 * The chessopening app is made with [electron-quick-start](https://github.com/electron/electron-quick-start) this framework allow you to create desktop apps with web based languages

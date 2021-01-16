@@ -103,6 +103,7 @@ function updateBoard() {
 }
 
 //* Training
+// TODO: refactor
 function trainOpening() {
     if (training.length > moves.length + 2) {
         const correct = verifyMove(training[currentMoveID], training, moves, currentMoveID)
