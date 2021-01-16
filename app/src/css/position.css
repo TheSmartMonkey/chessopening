@@ -1,6 +1,20 @@
 /* Global */
+.sidenav {
+    width: 15%;
+}
+
 .container {
     margin-top: 100px;
+}
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-container {
+    margin: 20px 0 20px 0;
 }
 
 .opening-title {
@@ -18,6 +32,7 @@
 
 .board {
     margin-right: 30px;
+    width: 600px;
 }
 
 /* Moves */
@@ -47,7 +62,7 @@
 .action {
     display: flex;
     justify-content: center;
-    margin-top: 50px;
+    margin: 50px 0 50px 0;
 }
 
 .correct {
@@ -55,5 +70,17 @@
 }
 
 .not-correct {
+    color: #ff1a1a;
+}
+
+/* Modal */
+.switch-color {
+    margin: 50px 0 50px 0;
+}
+
+.error-message {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
     color: #ff1a1a;
 }
