@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
@@ -8,6 +9,7 @@
 
   <!-- Chess Board -->
   <link rel="stylesheet" href="chessboardjs/lib/chessboard.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="css/position.css">
   <link rel="stylesheet" href="css/button.css">
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -22,8 +24,8 @@
     <h1 class="opening-title">ruy lopez</h1>
     <div class="board-container">
       <!-- Chess Board -->
-      <div class="board" id="board" style="width: 600px"></div>
-  
+      <div class="board" id="board"></div>
+
       <div class="moves-container">
         <!-- Move locations -->
         <span class="text-moves">Moves</span>
@@ -36,11 +38,33 @@
     <div class="action" id="move-status"></div>
   </div>
 
+  <!-- Modal create opening -->
+  <div class="w3-container">
+    <button onclick="document.getElementById('id01').style.display='block'" id="opening-modal"
+      class="btn2 btn2-green">Create Opening</button>
+
+    <div id="id01" class="w3-modal">
+      <div class="w3-modal-content">
+        <header class="w3-container w3-teal">
+          <span onclick="document.getElementById('id01').style.display='none'"
+            class="w3-button w3-display-topright">&times;</span>
+          <h2>Modal Header</h2>
+        </header>
+        <div class="w3-container">
+          <p>Some text..</p>
+          <p>Some text..</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Librairies -->
   <script src="chessboardjs/website/js/chess-0.10.2.min.js"></script>
   <script src="../node_modules/chess.js/chess.js"></script>
 
   <!-- Js files -->
-  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="./js/training.js"></script>
+  <script type="module" src="./js/opening-modal.js"></script>
 </body>
+
 </html>
