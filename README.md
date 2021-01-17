@@ -6,7 +6,25 @@ Desktop app that help you learn chess openings and openings variations
 
 ## Getting started
 
-WIP
+1. Go to [DOWNLOAD](https://github.com/TheSmartMonkey/chessopening/releases/tag/1.0.0)
+
+1. Download the zip
+
+1. unzip
+
+1. Double click on the Setup.exe
+
+## Why this app ?
+
+while trying to learn new chess openings I found it inconvenient to learn by writing down on a notebook the different variants of an opening that's why I decided to make a more playful application to learn them more easily 
+
+## How to use it ?
+
+1. You can train you favorite openings trying to do the good moves
+
+1. You can create new openings by exporting the PGN (data of chess moves) from lichess or another website : everthing is explained in the modal of the create opening button
+
+1. By clicking on the links you can load your openings
 
 ## For Developers
 
