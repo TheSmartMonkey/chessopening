@@ -33,14 +33,14 @@ function getFenFromPgn(pgn) {
 
 function verifyFormTitle(title) {
     const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
-    const moves = JSON.parse(rawdata)
-    for (const move of moves.white) {
-        if (move.title === title) {
+    const json = JSON.parse(rawdata)
+    for (const opening of json.white) {
+        if (opening.title === title) {
             return false
         }
     }
-    for (const move of moves.black) {
-        if (move.title === title) {
+    for (const opening of json.black) {
+        if (opening.title === title) {
             return false
         }
     }
