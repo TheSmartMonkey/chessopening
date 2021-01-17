@@ -109,8 +109,8 @@
 
 .opening-link {
     width : 240px;
-    overflow:hidden;
-    display:inline-block;
+    overflow: hidden;
+    display: inline-block;
     text-overflow: ellipsis;
     white-space: nowrap;
 }

@@ -66,7 +66,7 @@ $('#submit-form').on("click", function () {
         errorTitle.innerHTML = ''
         errorPgn.innerHTML = ''
         document.getElementById('opening-modal').style.display = 'none'
-        document.location.reload();
+        document.location.reload()
     } else {
         errorTitle.innerHTML = 'Title already exist'
     }

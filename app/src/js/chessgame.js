@@ -108,8 +108,9 @@ export class Chessgame {
 
     logMove(move) {
         if (move !== null) {
-            const moveFen = this.game.fen()
-            this.moves.push(moveFen)
+            move['fen'] = this.game.fen()
+            this.moves.push(move)
+            return moves
         }
     }
 

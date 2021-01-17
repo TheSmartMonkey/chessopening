@@ -8,8 +8,8 @@ class Training extends Chessgame {
         super(boardID)
         this.openingPgn = ''
         this.training = []
-        this.title = 'Opening title'
-        this.getOpening('', '')
+        this.title = 'opening'
+        this.getOpening('white', '')
     }
 
     getOpening(color, title) {
@@ -29,12 +29,14 @@ class Training extends Chessgame {
                 }
             }
         }
+        localStorage.setItem('color', color)
         this.setOpeningTitle(this.title)
         this.setPngArea(this.openingPgn)
     }
 
     setOpeningTitle(title) {
         const opeingTitle = document.getElementById('opening-title')
+        localStorage.setItem('title', title)
         opeingTitle.innerHTML = title
     }
 
@@ -47,9 +49,9 @@ class Training extends Chessgame {
         const moveStatus = document.getElementById('move-status')
         let playedMove = ''
         if (this.currentMoveID == 0) {
-            playedMove = this.moves[this.currentMoveID]
+            playedMove = this.moves[this.currentMoveID].fen
         } else {
-            playedMove = this.moves[this.currentMoveID - 1]
+            playedMove = this.moves[this.currentMoveID - 1].fen
         }
 
         if (this.moves.length > this.training.length - 1) {
@@ -125,6 +127,31 @@ t.updateStatus()
 //* On click events
 $('#reset').on("click", function () {
     t.resetAll()
+});
+
+$('#delete').on("click", function () {
+    t.resetAll()
+    
+    // Delete opening
+    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
+    let json = JSON.parse(rawdata)
+    const color = localStorage.getItem('color')
+    let inc = 0
+
+    console.log('TEST: ', json[color]);
+    for (const opening of json[color]) {
+        if (opening.title === t.title) {
+            json[color].splice(inc, 1)
+        }
+        inc++
+    }
+
+    fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err){
+        if (err){
+            console.log(err)
+        }
+    })
+    document.location.reload()
 });
 
 $('.explorer').on("click", function (event) {

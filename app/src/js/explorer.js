@@ -16,8 +16,13 @@ function getOpenings(color) {
 function addOpenings(color) {
     const explorer = document.getElementById('explorer-' + color)
     const openings = getOpenings(color)
+    let openingLink = ''
+
     for (const opening of openings) {
-        explorer.innerHTML += '<a class="opening-link" onclick="localStorage.setItem(\'title\', \'' + opening + '\');localStorage.setItem(\'color\', \'' + color + '\')" href="#">' + opening + '</a><br>'
+        openingLink = '<a class="opening-link"' + 
+            'onclick="localStorage.setItem(\'title\', \'' + opening + '\');localStorage.setItem(\'color\', \'' + color + '\')" href="#">' + 
+            opening + '</a><br>'
+        explorer.innerHTML += openingLink
     }
 }
 
