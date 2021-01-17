@@ -18,15 +18,15 @@ class Training extends Chessgame {
         const moveStatus = document.getElementById('move-status')
         let playedMove = ''
         if (this.currentMoveID == 0) {
-            playedMove = this.moves[this.currentMoveID].fen
+            playedMove = this.moves[this.currentMoveID]
         } else {
-            playedMove = this.moves[this.currentMoveID - 1].fen
+            playedMove = this.moves[this.currentMoveID - 1]
         }
 
         if (this.moves.length > this.training.length - 1) {
             moveStatus.className = 'action correct'
             moveStatus.innerHTML = 'CONGRATULATION'
-        } else if (playedMove == correctMove.fen) {
+        } else if (playedMove == correctMove) {
             moveStatus.className = 'action correct'
             moveStatus.innerHTML = 'CORRECT'
             return true
@@ -45,7 +45,7 @@ class Training extends Chessgame {
             if (correct) {
                 this.currentMoveID++
                 const nextMove = this.training[this.currentMoveID]
-                this.config.position = nextMove.fen
+                this.config.position = nextMove
                 this.game.load(this.config.position)
                 this.board = Chessboard('board', this.config)
             } else {
@@ -71,35 +71,37 @@ class Training extends Chessgame {
         this.trainOpening()
         this.updateStatus()
     }
+
+    resetAll() {
+        const moveStatus = document.getElementById('move-status')
+        this.resetGame()
+
+        // Reset Moves
+        this.moves = []
+        this.currentMoveID = -1
+
+        // Reset training message
+        moveStatus.innerHTML = ''
+
+        // Reset config
+        this.config.position = 'start'
+        this.updateBoard()
+    }
 }
 
 var t = new Training('board')
 t.updateStatus()
 
 
-// //* On click
-// function resetAll() {
-//     const moveStatus = document.getElementById('move-status')
-//     resetGame()
+//* On click events
+$('#reset').on("click", function () {
+    t.resetAll()
+});
 
-//     // Reset Moves
-//     moves = []
-//     currentMoveID = -1
-
-//     // Reset training message
-//     moveStatus.innerHTML = ''
-
-//     // Reset config
-//     config.position = 'start'
-//     updateBoard()
-// }
-
-// $('#reset').on("click", function () {
-//     resetAll()
-// });
-
-// $('#opening-explorer').on("click", function () {
-//     resetAll()
-//     // TODO: localstorage onload opening
-//     // config.position = localStorage
-// });
+$('.explorer').on("click", function (event) {
+    t.resetAll()
+    // TODO: localstorage onload opening
+    // t.config.position = localStorage
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+});

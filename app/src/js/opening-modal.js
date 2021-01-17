@@ -25,7 +25,7 @@ function getFenFromPgn(pgn) {
     chess1.load_pgn(pgn);
     let moves = chess1.history().map(move => {
         chess2.move(move);
-        return {'fen': chess2.fen()};
+        return chess2.fen();
     });
 
     return moves
