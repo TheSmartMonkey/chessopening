@@ -9,7 +9,7 @@ function dumpOpening(title, color, moves) {
         'moves': moves
     })
 
-    fs.writeFile('src/openings.json', JSON.stringify(json), 'utf8', function readFileCallback(err){
+    fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err){
         if (err){
             const errorPgn = document.getElementById('error-pgn')
             errorPgn.innerHTML = 'PGN wrong format'

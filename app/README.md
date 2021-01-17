@@ -43,3 +43,21 @@ Note: If you're using Linux Bash for Windows, [see this guide](https://www.howto
 ## License
 
 [CC0 1.0 (Public Domain)](LICENSE.md)
+
+## Create the installer
+
+First suppress all files of exe and installer if you did a previous intaller
+
+Go to the root of the project and run this command to create the exe
+
+```bash
+electron-packager app chessopening --platform=win32 --arch=x64
+```
+
+Then at the root of the project create the installer with this command
+
+```bash
+node build.js
+```
+
+Go in the `chessopening-installers` folder. Then click on `Setup.exe`
