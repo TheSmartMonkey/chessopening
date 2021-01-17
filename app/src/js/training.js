@@ -5,8 +5,6 @@ const path = require('path');
 class Training extends Chessgame {
     constructor(boardID) {
         super(boardID)
-        // this.config.onDrop = this.onDropTraining.bind(this)
-        // this.board = Chessboard(boardID, this.config)
         this.training = this.getOpeningMoves()
     }
 
@@ -48,8 +46,8 @@ class Training extends Chessgame {
                 this.currentMoveID++
                 const nextMove = this.training[this.currentMoveID]
                 this.config.position = nextMove.fen
-                this.game.load(config.position)
-                this.board = Chessboard('board', config)
+                this.game.load(this.config.position)
+                this.board = Chessboard('board', this.config)
             } else {
                 this.moves = []
                 this.currentMoveID = -1
@@ -68,8 +66,10 @@ class Training extends Chessgame {
         }
     }
 
-    onDropTraining() {
-        this.onDrop.bind(this)
+    onDropEvent() {
+        this.updateStatus()
+        this.trainOpening()
+        this.updateStatus()
     }
 }
 

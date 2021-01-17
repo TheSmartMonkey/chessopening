@@ -46,11 +46,12 @@ export class Chessgame {
         this.addAllMoves()
         this.currentMoveID = this.currentMoveID + 1
 
-        // // Training
-        // updateStatus()
-        // trainOpening()
+        // Call this function to add logic onDrop
+        this.onDropEvent()
+    }
 
-        // this.updateStatus()
+    onDropEvent() {
+        this.updateStatus()
     }
 
     // Update the board position after the piece snap
@@ -122,10 +123,10 @@ export class Chessgame {
     }
 
     updateBoard() {
-        this.game.load(config.position)
-        this.board = Chessboard('board', config)
-        updateStatus()
-        clearMove()
-        addAllMoves(this.moves)
+        this.game.load(this.config.position)
+        this.board = Chessboard('board', this.config)
+        this.updateStatus()
+        this.clearMove()
+        this.addAllMoves()
     }
 }
