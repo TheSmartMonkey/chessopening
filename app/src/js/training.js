@@ -9,7 +9,8 @@ class Training extends Chessgame {
         this.openingPgn = ''
         this.training = []
         this.title = 'opening'
-        this.getOpening('white', '')
+        this.color = 'white'
+        this.getOpening(this.color, '')
     }
 
     getOpening(color, title) {
@@ -17,21 +18,26 @@ class Training extends Chessgame {
         let json = JSON.parse(rawdata)
 
         if (title === '') {
-            this.training = json.white[0].moves
-            this.title = json.white[0].title
-            this.openingPgn = json.white[0].pgn
+            // Take 1st white opening by default
+            this.setOpening(json.white[0])
         } else {
+            // Find opening
             for (const opening of json[color]) {
                 if (opening.title === title) {
-                    this.training = opening.moves
-                    this.title = opening.title
-                    this.openingPgn = opening.pgn
+                    this.setOpening(opening)
                 }
             }
         }
-        localStorage.setItem('color', color)
         this.setOpeningTitle(this.title)
+        this.setOpeningColor(color)
         this.setPngArea(this.openingPgn)
+        this.updateOpeningColor()
+    }
+
+    setOpening(opening) {
+        this.training = opening.moves
+        this.title = opening.title
+        this.openingPgn = opening.pgn
     }
 
     setOpeningTitle(title) {
@@ -40,61 +46,94 @@ class Training extends Chessgame {
         opeingTitle.innerHTML = title
     }
 
+    setOpeningColor(color) {
+        this.color = color
+        localStorage.setItem('color', color)
+    }
+
     setPngArea(pgn) {
         const pngArea = document.getElementById('png-area')
         pngArea.innerText = pgn
     }
 
-    verifyMove(correctMove) {
-        const moveStatus = document.getElementById('move-status')
-        let playedMove = ''
-        if (this.currentMoveID == 0) {
-            playedMove = this.moves[this.currentMoveID].fen
-        } else {
-            playedMove = this.moves[this.currentMoveID - 1].fen
+    //* Training
+    updateOpeningColor() {
+        if (this.color === 'black') {
+            this.updateOrientation('black')
+            this.computerMove()
         }
+    }
 
-        if (this.moves.length > this.training.length - 1) {
+    // verifyStartingMove() {
+    //     if (this.currentMoveID === 0) {
+    //         playedMove = this.moves[this.currentMoveID]
+    //     } else {
+    //         playedMove = this.moves[this.currentMoveID - 2]
+    //     }
+    // }
+
+    verifyMove(playedMove, correctMove) {
+        if (playedMove === correctMove) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    continueTraining() {
+        if (this.moves.length === this.training.length) {
+            return false
+        } else {
+            return true
+        }
+    }
+
+    displayCorrectMessage(playedMove, correctMove) {
+        const moveStatus = document.getElementById('move-status')
+
+        if (!this.continueTraining()) {
             moveStatus.className = 'action correct'
             moveStatus.innerHTML = 'CONGRATULATION'
-        } else if (playedMove == correctMove) {
+        } else if (playedMove === correctMove) {
             moveStatus.className = 'action correct'
             moveStatus.innerHTML = 'CORRECT'
-            return true
         } else {
             moveStatus.className = 'action not-correct'
             moveStatus.innerHTML = 'NOT CORRECT'
         }
-        return false
     }
 
-    // TODO: refactor
+    computerMove() {
+        const computerMove = this.training[this.currentMoveID]
+        this.moves.push(computerMove)
+        this.currentMoveID++
+        this.updatePosition(computerMove)
+    }
+
     trainOpening() {
-        if (this.training.length > this.moves.length + 2) {
-            const correct = this.verifyMove(this.training[this.currentMoveID])
+        const playedMove = this.moves[this.currentMoveID - 1]
+        const correctMove = this.training[this.currentMoveID - 1]
+        console.log('playedMove: ', playedMove);
+        console.log('correctMove: ', correctMove);
+
+        if (this.continueTraining()) {
+            const correct = this.verifyMove(playedMove, correctMove)
+            console.log('correct: ', correct);
             this.resetGame()
+
             if (correct) {
-                this.currentMoveID++
-                const nextMove = this.training[this.currentMoveID]
-                this.config.position = nextMove
-                this.game.load(this.config.position)
-                this.board = Chessboard('board', this.config)
+                this.computerMove()
             } else {
-                this.moves = []
-                this.currentMoveID = -1
-                this.config.position = 'start'
-                this.updateBoard()
+                this.resetAll()
+                this.updatePosition('start')
             }
+
         } else {
-            const moveStatus = document.getElementById('move-status')
-            moveStatus.className = 'action correct'
-            moveStatus.innerHTML = 'CONGRATULATION'
-            this.resetGame()
-            this.moves = []
-            this.currentMoveID = -1
-            this.config.position = 'start'
-            this.updateBoard()
+            this.resetAll()
+            this.updatePosition('start')
         }
+
+        this.displayCorrectMessage(playedMove, correctMove)
     }
 
     onDropEvent() {
@@ -103,16 +142,19 @@ class Training extends Chessgame {
         this.updateStatus()
     }
 
+    //* Reset Board
     resetAll() {
         const moveStatus = document.getElementById('move-status')
         this.resetGame()
 
         // Reset Moves
+        this.myMoves = []
         this.moves = []
-        this.currentMoveID = -1
+        this.currentMoveID = 0
 
         // Reset training message
-        moveStatus.innerHTML = ''
+        moveStatus.className = 'action'
+        moveStatus.innerHTML = 'PLAY A MOVE'
 
         // Reset config
         this.config.position = 'start'

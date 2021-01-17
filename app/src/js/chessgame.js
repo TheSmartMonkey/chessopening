@@ -2,6 +2,7 @@
 export class Chessgame {
     constructor(boardID) {
         this.config = {
+            orientation: 'white',
             draggable: true,
             position: 'start',
             onDragStart: this.onDragStart.bind(this),
@@ -13,8 +14,9 @@ export class Chessgame {
         this.$status = $('#status')
         this.$fen = $('#fen')
         this.$pgn = $('#pgn')
+        this.myMoves = []
         this.moves = []
-        this.currentMoveID = -1
+        this.currentMoveID = 0
     }
 
     //* Chess board logic
@@ -44,7 +46,7 @@ export class Chessgame {
         this.logMove(move)
         this.clearMove()
         this.addAllMoves()
-        this.currentMoveID = this.currentMoveID + 1
+        this.currentMoveID++
 
         // Call this function to add logic onDrop
         this.onDropEvent()
@@ -93,10 +95,24 @@ export class Chessgame {
         this.$pgn.html(this.game.pgn())
     }
 
+    updatePosition(fen) {
+        this.config.position = fen
+        this.game.load(this.config.position)
+        this.board = Chessboard('board', this.config)
+        this.updateBoard()
+    }
+
+    updateOrientation(color) {
+        this.config.orientation = color
+        this.game.load(this.config.orientation)
+        this.board = Chessboard('board', this.config)
+        this.updateBoard()
+    }
+
     //* Moves
     addAllMoves() {
         const movesDiv = document.getElementById('moves')
-        for (const move of this.moves) {
+        for (const move of this.myMoves) {
             movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move.san +'</button>'
         }
     }
@@ -109,7 +125,8 @@ export class Chessgame {
     logMove(move) {
         if (move !== null) {
             move['fen'] = this.game.fen()
-            this.moves.push(move)
+            this.myMoves.push(move)
+            this.moves.push(move['fen'])
             return moves
         }
     }
