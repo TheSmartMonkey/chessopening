@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-function dumpOpening(title, color, moves) {
+function dumpOpening(title, pgn, color, moves) {
     const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
     let json = JSON.parse(rawdata)
     json[color].push({
         'title': title,
+        'pgn': pgn,
         'moves': moves
     })
 
@@ -25,7 +26,7 @@ function getFenFromPgn(pgn) {
     chess1.load_pgn(pgn);
     let moves = chess1.history().map(move => {
         chess2.move(move);
-        return {'fen': chess2.fen()};
+        return chess2.fen();
     });
 
     return moves
@@ -33,14 +34,14 @@ function getFenFromPgn(pgn) {
 
 function verifyFormTitle(title) {
     const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
-    const moves = JSON.parse(rawdata)
-    for (const move of moves.white) {
-        if (move.title === title) {
+    const json = JSON.parse(rawdata)
+    for (const opening of json.white) {
+        if (opening.title === title) {
             return false
         }
     }
-    for (const move of moves.black) {
-        if (move.title === title) {
+    for (const opening of json.black) {
+        if (opening.title === title) {
             return false
         }
     }
@@ -61,10 +62,11 @@ $('#submit-form').on("click", function () {
     const errorTitle = document.getElementById('error-title')
     const errorPgn = document.getElementById('error-pgn')
     if (verifyFormTitle(titleInput)) {
-        dumpOpening(titleInput, color, getFenFromPgn(pgnInput))
+        dumpOpening(titleInput, pgnInput, color, getFenFromPgn(pgnInput))
         errorTitle.innerHTML = ''
         errorPgn.innerHTML = ''
         document.getElementById('opening-modal').style.display = 'none'
+        document.location.reload()
     } else {
         errorTitle.innerHTML = 'Title already exist'
     }

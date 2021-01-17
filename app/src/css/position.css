@@ -25,6 +25,15 @@
 }
 
 /* Board */
+.pgn-container {
+    margin: 0 0 50px 15%;
+}
+
+.png-area {
+    height: 200px;
+    width: 800px;
+}
+
 .board-container {
     display: flex;
     justify-content: center;
@@ -83,4 +92,25 @@
     justify-content: center;
     margin-top: 10px;
     color: #ff1a1a;
+}
+
+/* Explorer */
+.opening-explorer {
+    margin-left: 10px;
+}
+
+.explorer-title {
+    font-weight: bold;
+}
+
+.explorer {
+    margin-left: 10px;
+}
+
+.opening-link {
+    width : 240px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

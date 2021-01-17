@@ -17,9 +17,3 @@ Go to the app folder everthing is documented there
 * The chess board is made with the [chessboardjs](https://github.com/oakmac/chessboardjs) open source project
 
 * Chess moves are handled with the [chess.js](https://github.com/jhlywa/chess.js) open source project that as been integrated with chessboard.js
-
-## Futur implementation
-
-* Integrate a computer analyse like [stockfish](https://github.com/mcostalba/Stockfish)
-
-* Import games from chess.com or lichess with [openingtree](https://github.com/openingtree/openingtree)

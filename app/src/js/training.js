@@ -1,162 +1,211 @@
-import { addAllMoves, clearMove, logMove, getOpeningMoves, verifyMove } from "./moves.js";
+import { Chessgame } from "./chessgame.js";
 
-//* Init variables
-var board = null
-var game = new Chess()
-var $status = $('#status')
-var $fen = $('#fen')
-var $pgn = $('#pgn')
-var moves = []
-var training = getOpeningMoves()
-var currentMoveID = -1
+const fs = require('fs');
+const path = require('path');
 
-//* Chess board logic
-function onDragStart(source, piece, position, orientation) {
-    // Do not pick up pieces if the game is over
-    if (game.game_over()) return false
-
-    // Only pick up pieces for the side to move
-    if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-        return false
-    }
-}
-
-function onDrop(source, target) {
-    // See if the move is legal
-    var move = game.move({
-        from: source,
-        to: target,
-        promotion: 'q' // NOTE: Always promote to a queen for example simplicity
-    })
-
-    // Illegal move
-    if (move === null) return 'snapback'
-
-    // Moves positions
-    moves = logMove(game, move, moves)
-    clearMove()
-    addAllMoves(moves)
-    currentMoveID = currentMoveID + 1
-
-    // Training
-    updateStatus()
-    trainOpening()
-
-    updateStatus()
-}
-
-// Update the board position after the piece snap
-// For castling, en passant, pawn promotion
-function onSnapEnd() {
-    board.position(game.fen())
-}
-
-function updateStatus() {
-    var status = ''
-
-    var moveColor = 'White'
-    if (game.turn() === 'b') {
-        moveColor = 'Black'
+class Training extends Chessgame {
+    constructor(boardID) {
+        super(boardID)
+        this.openingPgn = ''
+        this.training = []
+        this.title = 'opening'
+        this.color = 'white'
+        this.getOpening(this.color, '')
     }
 
-    // Checkmate?
-    if (game.in_checkmate()) {
-        status = 'Game over, ' + moveColor + ' is in checkmate.'
-    }
+    getOpening(color, title) {
+        const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
+        let json = JSON.parse(rawdata)
 
-    // Draw?
-    else if (game.in_draw()) {
-        status = 'Game over, drawn position'
-    }
-
-    // Game still on
-    else {
-        status = moveColor + ' to move'
-
-        // Check?
-        if (game.in_check()) {
-            status += ', ' + moveColor + ' is in check'
-        }
-    }
-
-    $status.html(status)
-    $fen.html(game.fen())
-    $pgn.html(game.pgn())
-}
-
-//* Reset Board
-function resetGame() {
-    board = null
-    game = new Chess()
-    $status = $('#status')
-    $fen = $('#fen')
-    $pgn = $('#pgn')
-}
-
-function updateBoard() {
-    game.load(config.position)
-    board = Chessboard('board', config)
-    updateStatus()
-    clearMove()
-    addAllMoves(moves)
-}
-
-//* Training
-// TODO: refactor
-function trainOpening() {
-    if (training.length > moves.length + 2) {
-        const correct = verifyMove(training[currentMoveID], training, moves, currentMoveID)
-        resetGame()
-        if (correct) {
-            currentMoveID++
-            const nextMove = training[currentMoveID]
-            config.position = nextMove.fen
-            game.load(config.position)
-            board = Chessboard('board', config)
+        if (title === '') {
+            // Take 1st white opening by default
+            this.setOpening(json.white[0])
         } else {
-            moves = []
-            currentMoveID = -1
-            config.position = 'start'
-            updateBoard()
+            // Find opening
+            for (const opening of json[color]) {
+                if (opening.title === title) {
+                    this.setOpening(opening)
+                }
+            }
         }
-    } else {
-        const moveStatus = document.getElementById('move-status')
-        moveStatus.className = 'action correct'
-        moveStatus.innerHTML = 'CONGRATULATION'
-        resetGame()
-        moves = []
-        currentMoveID = -1
-        config.position = 'start'
-        updateBoard()
+        this.setOpeningTitle(this.title)
+        this.setOpeningColor(color)
+        this.setPngArea(this.openingPgn)
+        this.updateOpeningColor()
     }
-};
 
-//* Set chess board
-var config = {
-    draggable: true,
-    position: 'start',
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
+    setOpening(opening) {
+        this.training = opening.moves
+        this.title = opening.title
+        this.openingPgn = opening.pgn
+    }
+
+    setOpeningTitle(title) {
+        const opeingTitle = document.getElementById('opening-title')
+        localStorage.setItem('title', title)
+        opeingTitle.innerHTML = title
+    }
+
+    setOpeningColor(color) {
+        this.color = color
+        localStorage.setItem('color', color)
+    }
+
+    setPngArea(pgn) {
+        const pngArea = document.getElementById('png-area')
+        pngArea.innerText = pgn
+    }
+
+    //* Training
+    updateOpeningColor() {
+        if (this.color === 'black') {
+            this.updateOrientation('black')
+            this.computerMove()
+        } else {
+            this.updateOrientation('white')
+        }
+    }
+
+    verifyMove(playedMove, correctMove) {
+        if (playedMove === correctMove) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    continueTraining() {
+        let movesLength = this.moves.length
+        let trainingLength = this.training.length
+        const endNumber = this.training.length % 2 == 0
+        if (this.color === 'black' && !endNumber) {
+            trainingLength--
+        }
+
+        if (this.color === 'white' && endNumber) {
+            trainingLength--
+        }
+
+        if (movesLength === trainingLength) {
+            return false
+        } else {
+            return true
+        }
+    }
+
+    displayCorrectMessage(playedMove, correctMove, continu) {
+        const moveStatus = document.getElementById('move-status')
+
+        if (!continu) {
+            console.log('CONGRATULATION');
+            moveStatus.className = 'action correct'
+            moveStatus.innerHTML = 'CONGRATULATION'
+        } else if (playedMove === correctMove) {
+            moveStatus.className = 'action correct'
+            moveStatus.innerHTML = 'CORRECT'
+        } else {
+            moveStatus.className = 'action not-correct'
+            moveStatus.innerHTML = 'NOT CORRECT'
+        }
+    }
+
+    computerMove() {
+        const computerMove = this.training[this.currentMoveID]
+        this.moves.push(computerMove)
+        this.currentMoveID++
+        this.updatePosition(computerMove)
+    }
+
+    trainOpening() {
+        const playedMove = this.moves[this.currentMoveID - 1]
+        const correctMove = this.training[this.currentMoveID - 1]
+        const continu = this.continueTraining()
+
+        if (continu) {
+            const correct = this.verifyMove(playedMove, correctMove)
+
+            if (correct) {
+                this.resetGame()
+                this.computerMove()
+            } else {
+                this.resetAll()
+                this.updatePosition('start')
+                this.updateOpeningColor()
+            }
+
+        } else {
+            this.resetAll()
+            this.updatePosition('start')
+            this.updateOpeningColor()
+        }
+
+        this.displayCorrectMessage(playedMove, correctMove, continu)
+    }
+
+    onDropEvent() {
+        this.updateStatus()
+        this.trainOpening()
+        this.updateStatus()
+    }
+
+    //* Reset Board
+    resetAll() {
+        const moveStatus = document.getElementById('move-status')
+        this.resetGame()
+
+        // Reset Moves
+        this.myMoves = []
+        this.moves = []
+        this.currentMoveID = 0
+
+        // Reset training message
+        moveStatus.className = 'action'
+        moveStatus.innerHTML = 'PLAY A MOVE'
+
+        // Reset config
+        this.config.position = 'start'
+        this.updateBoard()
+    }
 }
 
-board = Chessboard('board', config)
-updateStatus()
+var t = new Training('board')
+t.updateStatus()
 
-//* On click
+
+//* On click events
 $('#reset').on("click", function () {
-    const moveStatus = document.getElementById('move-status')
-    resetGame()
+    t.resetAll()
+    t.updateOpeningColor()
+});
 
-    // Reset Moves
-    moves = []
-    currentMoveID = -1
+$('#delete').on("click", function () {
+    t.resetAll()
+    
+    // Delete opening
+    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
+    let json = JSON.parse(rawdata)
+    const color = localStorage.getItem('color')
+    let inc = 0
 
-    // Reset training message
-    moveStatus.innerHTML = ''
+    for (const opening of json[color]) {
+        if (opening.title === t.title) {
+            json[color].splice(inc, 1)
+        }
+        inc++
+    }
 
-    // Reset config
-    config.position = 'start'
-    updateBoard()
+    fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err){
+        if (err){
+            console.log(err)
+        }
+    })
+    document.location.reload()
+});
+
+$('.explorer').on("click", function (event) {
+    t.resetAll()
+    t.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
+    t.updateStatus()
+    event.stopPropagation();
+    event.stopImmediatePropagation();
 });
