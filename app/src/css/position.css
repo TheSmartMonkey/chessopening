@@ -25,6 +25,15 @@
 }
 
 /* Board */
+.pgn-container {
+    margin: 0 0 50px 15%;
+}
+
+.png-area {
+    height: 200px;
+    width: 800px;
+}
+
 .board-container {
     display: flex;
     justify-content: center;

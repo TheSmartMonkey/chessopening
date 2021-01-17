@@ -6,10 +6,10 @@ const path = require('path');
 class Training extends Chessgame {
     constructor(boardID) {
         super(boardID)
+        this.openingPgn = ''
         this.training = []
         this.title = 'Opening title'
         this.getOpening('', '')
-        this.setOpeningTitle(this.title)
     }
 
     getOpening(color, title) {
@@ -19,19 +19,28 @@ class Training extends Chessgame {
         if (title === '') {
             this.training = json.white[0].moves
             this.title = json.white[0].title
+            this.openingPgn = json.white[0].pgn
         } else {
             for (const opening of json[color]) {
                 if (opening.title === title) {
                     this.training = opening.moves
                     this.title = opening.title
+                    this.openingPgn = opening.pgn
                 }
             }
         }
+        this.setOpeningTitle(this.title)
+        this.setPngArea(this.openingPgn)
     }
 
     setOpeningTitle(title) {
         const opeingTitle = document.getElementById('opening-title')
         opeingTitle.innerHTML = title
+    }
+
+    setPngArea(pgn) {
+        const pngArea = document.getElementById('png-area')
+        pngArea.innerText = pgn
     }
 
     verifyMove(correctMove) {
@@ -121,7 +130,6 @@ $('#reset').on("click", function () {
 $('.explorer').on("click", function (event) {
     t.resetAll()
     t.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
-    t.setOpeningTitle(localStorage.getItem('title'))
     t.updateStatus()
     event.stopPropagation();
     event.stopImmediatePropagation();

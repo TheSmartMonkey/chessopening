@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-function dumpOpening(title, color, moves) {
+function dumpOpening(title, pgn, color, moves) {
     const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
     let json = JSON.parse(rawdata)
     json[color].push({
         'title': title,
+        'pgn': pgn,
         'moves': moves
     })
 
@@ -61,7 +62,7 @@ $('#submit-form').on("click", function () {
     const errorTitle = document.getElementById('error-title')
     const errorPgn = document.getElementById('error-pgn')
     if (verifyFormTitle(titleInput)) {
-        dumpOpening(titleInput, color, getFenFromPgn(pgnInput))
+        dumpOpening(titleInput, pgnInput, color, getFenFromPgn(pgnInput))
         errorTitle.innerHTML = ''
         errorPgn.innerHTML = ''
         document.getElementById('opening-modal').style.display = 'none'
