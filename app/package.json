@@ -1,12 +1,12 @@
 {
-  "name": "electronquickstart",
+  "name": "chessopening",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Desktop app that help you learn chess openings and openings variations",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/TheSmartMonkey/chessopening",
   "keywords": [
     "Electron",
     "quick",
@@ -14,7 +14,7 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "TheSmartMonkey",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^11.1.1",

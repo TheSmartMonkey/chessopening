@@ -46,6 +46,8 @@ Note: If you're using Linux Bash for Windows, [see this guide](https://www.howto
 
 ## Create the installer
 
+First suppress all files of exe and installer if you did a previous intaller
+
 Go to the root of the project and run this command to create the exe
 
 ```bash
