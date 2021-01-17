@@ -61,16 +61,10 @@ class Training extends Chessgame {
         if (this.color === 'black') {
             this.updateOrientation('black')
             this.computerMove()
+        } else {
+            this.updateOrientation('white')
         }
     }
-
-    // verifyStartingMove() {
-    //     if (this.currentMoveID === 0) {
-    //         playedMove = this.moves[this.currentMoveID]
-    //     } else {
-    //         playedMove = this.moves[this.currentMoveID - 2]
-    //     }
-    // }
 
     verifyMove(playedMove, correctMove) {
         if (playedMove === correctMove) {
@@ -81,17 +75,29 @@ class Training extends Chessgame {
     }
 
     continueTraining() {
-        if (this.moves.length === this.training.length) {
+        let movesLength = this.moves.length
+        let trainingLength = this.training.length
+        const endNumber = this.training.length % 2 == 0
+        if (this.color === 'black' && !endNumber) {
+            trainingLength--
+        }
+
+        if (this.color === 'white' && endNumber) {
+            trainingLength--
+        }
+
+        if (movesLength === trainingLength) {
             return false
         } else {
             return true
         }
     }
 
-    displayCorrectMessage(playedMove, correctMove) {
+    displayCorrectMessage(playedMove, correctMove, continu) {
         const moveStatus = document.getElementById('move-status')
 
-        if (!this.continueTraining()) {
+        if (!continu) {
+            console.log('CONGRATULATION');
             moveStatus.className = 'action correct'
             moveStatus.innerHTML = 'CONGRATULATION'
         } else if (playedMove === correctMove) {
@@ -113,27 +119,27 @@ class Training extends Chessgame {
     trainOpening() {
         const playedMove = this.moves[this.currentMoveID - 1]
         const correctMove = this.training[this.currentMoveID - 1]
-        console.log('playedMove: ', playedMove);
-        console.log('correctMove: ', correctMove);
+        const continu = this.continueTraining()
 
-        if (this.continueTraining()) {
+        if (continu) {
             const correct = this.verifyMove(playedMove, correctMove)
-            console.log('correct: ', correct);
-            this.resetGame()
 
             if (correct) {
+                this.resetGame()
                 this.computerMove()
             } else {
                 this.resetAll()
                 this.updatePosition('start')
+                this.updateOpeningColor()
             }
 
         } else {
             this.resetAll()
             this.updatePosition('start')
+            this.updateOpeningColor()
         }
 
-        this.displayCorrectMessage(playedMove, correctMove)
+        this.displayCorrectMessage(playedMove, correctMove, continu)
     }
 
     onDropEvent() {
@@ -169,6 +175,7 @@ t.updateStatus()
 //* On click events
 $('#reset').on("click", function () {
     t.resetAll()
+    t.updateOpeningColor()
 });
 
 $('#delete').on("click", function () {
@@ -180,7 +187,6 @@ $('#delete').on("click", function () {
     const color = localStorage.getItem('color')
     let inc = 0
 
-    console.log('TEST: ', json[color]);
     for (const opening of json[color]) {
         if (opening.title === t.title) {
             json[color].splice(inc, 1)

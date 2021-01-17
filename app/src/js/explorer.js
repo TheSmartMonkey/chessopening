@@ -20,8 +20,9 @@ function addOpenings(color) {
 
     for (const opening of openings) {
         openingLink = '<a class="opening-link"' + 
-            'onclick="localStorage.setItem(\'title\', \'' + opening + '\');localStorage.setItem(\'color\', \'' + color + '\')" href="#">' + 
-            opening + '</a><br>'
+            'onclick="localStorage.setItem(\'title\', \'' + opening + '\');' +
+            'localStorage.setItem(\'color\', \'' + color + '\')"' +
+            ' href="#">' + opening + '</a><br>'
         explorer.innerHTML += openingLink
     }
 }
