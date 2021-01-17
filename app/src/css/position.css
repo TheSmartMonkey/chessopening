@@ -1,6 +1,6 @@
 /* Global */
 .sidenav {
-    width: 15%;
+    width: 20%;
 }
 
 .container {
@@ -26,17 +26,17 @@
 
 /* Board */
 .pgn-container {
-    margin: 0 0 50px 15%;
+    text-align: center;
 }
 
 .png-area {
     height: 200px;
-    width: 800px;
+    width: 600px;
 }
 
 .board-container {
     display: flex;
-    justify-content: center;
+    margin-left: 25%;
 }
 
 .board {

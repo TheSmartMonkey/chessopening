@@ -209,3 +209,10 @@ $('.explorer').on("click", function (event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
 });
+
+$('#png-area').on("click", function () {
+    const copyPgn = document.getElementById("png-area");
+    copyPgn.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+});
