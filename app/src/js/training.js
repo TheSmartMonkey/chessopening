@@ -1,153 +1,81 @@
 import { Chessgame } from "./chessgame.js";
+const fs = require('fs');
+const path = require('path');
 
-var cg = new Chessgame()
-cg.board = Chessboard('board', cg.config)
-cg.updateStatus()
-// import { addAllMoves, clearMove, logMove, getOpeningMoves, verifyMove } from "./moves.js";
+class Training extends Chessgame {
+    constructor(boardID) {
+        super(boardID)
+        // this.config.onDrop = this.onDropTraining.bind(this)
+        // this.board = Chessboard(boardID, this.config)
+        this.training = this.getOpeningMoves()
+    }
 
-// //* Init variables
-// var board = null
-// var game = new Chess()
-// var $status = $('#status')
-// var $fen = $('#fen')
-// var $pgn = $('#pgn')
-// var moves = []
-// var training = getOpeningMoves()
-// var currentMoveID = -1
+    getOpeningMoves() {
+        const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
+        const jsonMoves = JSON.parse(rawdata).white[0].moves;
+        return jsonMoves
+    }
 
-// //* Chess board logic
-// function onDragStart(source, piece, position, orientation) {
-//     // Do not pick up pieces if the game is over
-//     if (game.game_over()) return false
+    verifyMove(correctMove) {
+        const moveStatus = document.getElementById('move-status')
+        let playedMove = ''
+        if (this.currentMoveID == 0) {
+            playedMove = this.moves[this.currentMoveID].fen
+        } else {
+            playedMove = this.moves[this.currentMoveID - 1].fen
+        }
 
-//     // Only pick up pieces for the side to move
-//     if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-//         (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-//         return false
-//     }
-// }
+        if (this.moves.length > this.training.length - 1) {
+            moveStatus.className = 'action correct'
+            moveStatus.innerHTML = 'CONGRATULATION'
+        } else if (playedMove == correctMove.fen) {
+            moveStatus.className = 'action correct'
+            moveStatus.innerHTML = 'CORRECT'
+            return true
+        } else {
+            moveStatus.className = 'action not-correct'
+            moveStatus.innerHTML = 'NOT CORRECT'
+        }
+        return false
+    }
 
-// function onDrop(source, target) {
-//     // See if the move is legal
-//     var move = game.move({
-//         from: source,
-//         to: target,
-//         promotion: 'q' // NOTE: Always promote to a queen for example simplicity
-//     })
+    // TODO: refactor
+    trainOpening() {
+        if (this.training.length > this.moves.length + 2) {
+            const correct = this.verifyMove(this.training[this.currentMoveID])
+            this.resetGame()
+            if (correct) {
+                this.currentMoveID++
+                const nextMove = this.training[this.currentMoveID]
+                this.config.position = nextMove.fen
+                this.game.load(config.position)
+                this.board = Chessboard('board', config)
+            } else {
+                this.moves = []
+                this.currentMoveID = -1
+                this.config.position = 'start'
+                this.updateBoard()
+            }
+        } else {
+            const moveStatus = document.getElementById('move-status')
+            moveStatus.className = 'action correct'
+            moveStatus.innerHTML = 'CONGRATULATION'
+            this.resetGame()
+            this.moves = []
+            this.currentMoveID = -1
+            this.config.position = 'start'
+            this.updateBoard()
+        }
+    }
 
-//     // Illegal move
-//     if (move === null) return 'snapback'
+    onDropTraining() {
+        this.onDrop.bind(this)
+    }
+}
 
-//     // Moves positions
-//     moves = logMove(game, move, moves)
-//     clearMove()
-//     addAllMoves(moves)
-//     currentMoveID = currentMoveID + 1
+var t = new Training('board')
+t.updateStatus()
 
-//     // Training
-//     updateStatus()
-//     trainOpening()
-
-//     updateStatus()
-// }
-
-// // Update the board position after the piece snap
-// // For castling, en passant, pawn promotion
-// function onSnapEnd() {
-//     board.position(game.fen())
-// }
-
-// function updateStatus() {
-//     var status = ''
-
-//     var moveColor = 'White'
-//     if (game.turn() === 'b') {
-//         moveColor = 'Black'
-//     }
-
-//     // Checkmate?
-//     if (game.in_checkmate()) {
-//         status = 'Game over, ' + moveColor + ' is in checkmate.'
-//     }
-
-//     // Draw?
-//     else if (game.in_draw()) {
-//         status = 'Game over, drawn position'
-//     }
-
-//     // Game still on
-//     else {
-//         status = moveColor + ' to move'
-
-//         // Check?
-//         if (game.in_check()) {
-//             status += ', ' + moveColor + ' is in check'
-//         }
-//     }
-
-//     $status.html(status)
-//     $fen.html(game.fen())
-//     $pgn.html(game.pgn())
-// }
-
-// //* Reset Board
-// function resetGame() {
-//     board = null
-//     game = new Chess()
-//     $status = $('#status')
-//     $fen = $('#fen')
-//     $pgn = $('#pgn')
-// }
-
-// function updateBoard() {
-//     game.load(config.position)
-//     board = Chessboard('board', config)
-//     updateStatus()
-//     clearMove()
-//     addAllMoves(moves)
-// }
-
-// //* Training
-// // TODO: refactor
-// function trainOpening() {
-//     if (training.length > moves.length + 2) {
-//         const correct = verifyMove(training[currentMoveID], training, moves, currentMoveID)
-//         resetGame()
-//         if (correct) {
-//             currentMoveID++
-//             const nextMove = training[currentMoveID]
-//             config.position = nextMove.fen
-//             game.load(config.position)
-//             board = Chessboard('board', config)
-//         } else {
-//             moves = []
-//             currentMoveID = -1
-//             config.position = 'start'
-//             updateBoard()
-//         }
-//     } else {
-//         const moveStatus = document.getElementById('move-status')
-//         moveStatus.className = 'action correct'
-//         moveStatus.innerHTML = 'CONGRATULATION'
-//         resetGame()
-//         moves = []
-//         currentMoveID = -1
-//         config.position = 'start'
-//         updateBoard()
-//     }
-// };
-
-// //* Set chess board
-// var config = {
-//     draggable: true,
-//     position: 'start',
-//     onDragStart: onDragStart,
-//     onDrop: onDrop,
-//     onSnapEnd: onSnapEnd
-// }
-
-// board = Chessboard('board', config)
-// updateStatus()
 
 // //* On click
 // function resetAll() {

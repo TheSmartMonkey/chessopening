@@ -1,14 +1,6 @@
 // Chessgame creates a board of chess
 export class Chessgame {
-    constructor() {
-        this.board = null
-        this.game = new Chess()
-        this.$status = $('#status')
-        this.$fen = $('#fen')
-        this.$pgn = $('#pgn')
-        // var moves = []
-        // var training = getOpeningMoves()
-        // var currentMoveID = -1
+    constructor(boardID) {
         this.config = {
             draggable: true,
             position: 'start',
@@ -16,6 +8,13 @@ export class Chessgame {
             onDrop: this.onDrop.bind(this),
             onSnapEnd: this.onSnapEnd.bind(this)
         }
+        this.board = Chessboard(boardID, this.config)
+        this.game = new Chess()
+        this.$status = $('#status')
+        this.$fen = $('#fen')
+        this.$pgn = $('#pgn')
+        this.moves = []
+        this.currentMoveID = -1
     }
 
     //* Chess board logic
@@ -41,17 +40,17 @@ export class Chessgame {
         // Illegal move
         if (move === null) return 'snapback'
 
-        // // Moves positions
-        // moves = logMove(game, move, moves)
-        // clearMove()
-        // addAllMoves(moves)
-        // currentMoveID = currentMoveID + 1
+        // Moves positions
+        this.logMove(move)
+        this.clearMove()
+        this.addAllMoves()
+        this.currentMoveID = this.currentMoveID + 1
 
         // // Training
         // updateStatus()
         // trainOpening()
 
-        this.updateStatus()
+        // this.updateStatus()
     }
 
     // Update the board position after the piece snap
@@ -91,5 +90,42 @@ export class Chessgame {
         this.$status.html(status)
         this.$fen.html(this.game.fen())
         this.$pgn.html(this.game.pgn())
+    }
+
+    //* Moves
+    addAllMoves() {
+        const movesDiv = document.getElementById('moves')
+        for (const move of this.moves) {
+            movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move.san +'</button>'
+        }
+    }
+
+    clearMove() {
+        const movesDiv = document.getElementById('moves')
+        movesDiv.innerHTML = ''
+    }
+
+    logMove(move) {
+        if (move !== null) {
+            move['fen'] = this.game.fen()
+            this.moves.push(move)
+        }
+    }
+
+    //* Reset Board
+    resetGame() {
+        this.board = null
+        this.game = new Chess()
+        this.$status = $('#status')
+        this.$fen = $('#fen')
+        this.$pgn = $('#pgn')
+    }
+
+    updateBoard() {
+        this.game.load(config.position)
+        this.board = Chessboard('board', config)
+        updateStatus()
+        clearMove()
+        addAllMoves(this.moves)
     }
 }
