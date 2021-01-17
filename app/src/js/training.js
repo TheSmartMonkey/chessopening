@@ -1,17 +1,37 @@
 import { Chessgame } from "./chessgame.js";
+
 const fs = require('fs');
 const path = require('path');
 
 class Training extends Chessgame {
     constructor(boardID) {
         super(boardID)
-        this.training = this.getOpeningMoves()
+        this.training = []
+        this.title = 'Opening title'
+        this.getOpening('', '')
+        this.setOpeningTitle(this.title)
     }
 
-    getOpeningMoves() {
-        const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
-        const jsonMoves = JSON.parse(rawdata).white[0].moves;
-        return jsonMoves
+    getOpening(color, title) {
+        const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
+        let json = JSON.parse(rawdata)
+
+        if (title === '') {
+            this.training = json.white[0].moves
+            this.title = json.white[0].title
+        } else {
+            for (const opening of json[color]) {
+                if (opening.title === title) {
+                    this.training = opening.moves
+                    this.title = opening.title
+                }
+            }
+        }
+    }
+
+    setOpeningTitle(title) {
+        const opeingTitle = document.getElementById('opening-title')
+        opeingTitle.innerHTML = title
     }
 
     verifyMove(correctMove) {
@@ -100,8 +120,9 @@ $('#reset').on("click", function () {
 
 $('.explorer').on("click", function (event) {
     t.resetAll()
-    // TODO: localstorage onload opening
-    // t.config.position = localStorage
+    t.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
+    t.setOpeningTitle(localStorage.getItem('title'))
+    t.updateStatus()
     event.stopPropagation();
     event.stopImmediatePropagation();
 });
