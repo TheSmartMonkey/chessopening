@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="css/position.css">
   <link rel="stylesheet" href="css/button.css">
   <link rel="stylesheet" href="css/switch.css">
+  <link rel="stylesheet" href="css/chessboard.css">
 
   <!-- JS Librairies -->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -44,7 +45,8 @@
               <!-- Title input -->
               <div>
                 <label>Opening Title</label>
-                <input class="w3-input w3-border w3-round" value="opening title" id="title-input" name="title-input" type="text">
+                <input class="w3-input w3-border w3-round" value="opening title" id="title-input" name="title-input"
+                  type="text">
               </div>
               <div class="error-message" id="error-title"></div>
 
@@ -59,7 +61,8 @@
               <!-- PGN input -->
               <div>
                 <label>Copy PGN from : <a target="_blank" href="https://lichess.org/analysis">lichess.org</a></label>
-                <input class="w3-input w3-border w3-round" value="1. e4 e5 2. Nf3 Nc6 3. Bb5" id="pgn-input" name="pgn-input" type="text">
+                <input class="w3-input w3-border w3-round" value="1. e4 e5 2. Nf3 Nc6 3. Bb5" id="pgn-input"
+                  name="pgn-input" type="text">
               </div>
               <div class="error-message" id="error-pgn"></div>
             </form>
@@ -96,6 +99,7 @@
       </div>
     </div>
     <div class="action">
+      <button id="tip" class="btn2 btn2-blue btn-tip">Give Tip</button>
       <button id="reset" class="btn2 btn2-green">Reset Board</button>
     </div>
     <div class="action" id="move-status">
@@ -119,7 +123,7 @@
   <script src="../node_modules/chess.js/chess.js"></script>
 
   <!-- JS files -->
-  <script type="module" src="./js/training.js"></script>
+  <script type="module" src="./js/events.js"></script>
   <script type="module" src="./js/opening-modal.js"></script>
   <script type="module" src="./js/explorer.js"></script>
 </body>

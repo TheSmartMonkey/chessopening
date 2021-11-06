@@ -1,5 +1,6 @@
 /* Global */
 .sidenav {
+    height: 98%;
     width: 20%;
 }
 
@@ -72,6 +73,10 @@
     display: flex;
     justify-content: center;
     margin: 50px 0 50px 0;
+}
+
+.btn-tip {
+    margin-right: 20px;
 }
 
 .correct {

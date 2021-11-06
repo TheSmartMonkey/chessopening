@@ -17,9 +17,10 @@ export class Chessgame {
         this.myMoves = []
         this.moves = []
         this.currentMoveID = 0
+        this.$board = $('#board')
     }
 
-    //* Chess board logic
+    //* Chess board native logic
     onDragStart(source, piece, position, orientation) {
         // Do not pick up pieces if the game is over
         if (this.game.game_over()) return false
@@ -113,7 +114,7 @@ export class Chessgame {
     addAllMoves() {
         const movesDiv = document.getElementById('moves')
         for (const move of this.myMoves) {
-            movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move.san +'</button>'
+            movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move.san + '</button>'
         }
     }
 
@@ -123,12 +124,20 @@ export class Chessgame {
     }
 
     logMove(move) {
-        if (move !== null) {
+        if (move) {
             move['fen'] = this.game.fen()
             this.myMoves.push(move)
             this.moves.push(move['fen'])
             return moves
         }
+    }
+
+    highlightMove(position) {
+        this.$board.find('.square-' + position).addClass('highlight-white')
+    }
+
+    removeAllHighlightMoves() {
+        this.$board.find('.square-55d63').removeClass('highlight-white')
     }
 
     //* Reset Board
