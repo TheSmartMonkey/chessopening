@@ -3,7 +3,7 @@ import { Chessgame } from "./chessgame.js";
 const fs = require('fs');
 const path = require('path');
 
-class Training extends Chessgame {
+export class Training extends Chessgame {
     constructor(boardID) {
         super(boardID)
         this.openingPgn = ''
@@ -152,6 +152,7 @@ class Training extends Chessgame {
     resetAll() {
         const moveStatus = document.getElementById('move-status')
         this.resetGame()
+        this.removeAllHighlightMoves()
 
         // Reset Moves
         this.myMoves = []
@@ -167,52 +168,3 @@ class Training extends Chessgame {
         this.updateBoard()
     }
 }
-
-var t = new Training('board')
-t.updateStatus()
-
-
-//* On click events
-$('#reset').on("click", function () {
-    t.resetAll()
-    t.updateOpeningColor()
-});
-
-$('#delete').on("click", function () {
-    t.resetAll()
-    
-    // Delete opening
-    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
-    let json = JSON.parse(rawdata)
-    const color = localStorage.getItem('color')
-    let inc = 0
-
-    for (const opening of json[color]) {
-        if (opening.title === t.title) {
-            json[color].splice(inc, 1)
-        }
-        inc++
-    }
-
-    fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err){
-        if (err){
-            console.log(err)
-        }
-    })
-    document.location.reload()
-});
-
-$('.explorer').on("click", function (event) {
-    t.resetAll()
-    t.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
-    t.updateStatus()
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-});
-
-$('#png-area').on("click", function () {
-    const copyPgn = document.getElementById("png-area");
-    copyPgn.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-});
