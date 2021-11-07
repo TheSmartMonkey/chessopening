@@ -21,6 +21,7 @@ export class Chessgame {
     }
 
     //* Chess board native logic
+    // eslint-disable-next-line no-unused-vars
     onDragStart(source, piece, position, orientation) {
         // Do not pick up pieces if the game is over
         if (this.game.game_over()) return false

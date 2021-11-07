@@ -1,7 +1,7 @@
-import { Training } from "./training.js";
+import { Training } from "./training.js"
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 const train = new Training('board')
 train.updateStatus()
@@ -9,19 +9,19 @@ train.updateStatus()
 //* On click events
 $('#tip').on("click", function () {
     train.highlightMove('c4')
-    console.log('DEBUG: ', train.myMoves);
-});
+    console.log('DEBUG: ', train.myMoves)
+})
 
 $('#reset').on("click", function () {
     train.resetAll()
     train.updateOpeningColor()
-});
+})
 
 $('#delete').on("click", function () {
     train.resetAll()
 
     // Delete opening
-    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
+    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
     let json = JSON.parse(rawdata)
     const color = localStorage.getItem('color')
     let inc = 0
@@ -39,18 +39,18 @@ $('#delete').on("click", function () {
         }
     })
     document.location.reload()
-});
+})
 
 $('.explorer').on("click", function (event) {
     train.resetAll()
     train.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
     train.updateStatus()
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-});
+    event.stopPropagation()
+    event.stopImmediatePropagation()
+})
 
 $('#png-area').on("click", function () {
-    const copyPgn = document.getElementById("png-area");
-    copyPgn.select();
-    document.execCommand("copy");
-});
+    const copyPgn = document.getElementById("png-area")
+    copyPgn.select()
+    document.execCommand("copy")
+})

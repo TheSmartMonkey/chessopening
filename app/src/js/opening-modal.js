@@ -1,8 +1,8 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 function dumpOpening(title, pgn, color, moves) {
-    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
+    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
     let json = JSON.parse(rawdata)
     json[color].push({
         'title': title,
@@ -20,14 +20,14 @@ function dumpOpening(title, pgn, color, moves) {
 }
 
 function getFenFromPgn(pgn) {
-    const chess1 = new Chess();
-    const chess2 = new Chess();
+    const chess1 = new Chess()
+    const chess2 = new Chess()
 
-    chess1.load_pgn(pgn);
+    chess1.load_pgn(pgn)
     let moves = chess1.history().map(move => {
-        chess2.move(move);
-        return chess2.fen();
-    });
+        chess2.move(move)
+        return chess2.fen()
+    })
 
     return moves
 }
@@ -70,4 +70,4 @@ $('#submit-form').on("click", function () {
     } else {
         errorTitle.innerHTML = 'Title already exist'
     }
-});
+})

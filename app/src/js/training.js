@@ -1,7 +1,7 @@
-import { Chessgame } from "./chessgame.js";
+import { Chessgame } from "./chessgame.js"
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 export class Training extends Chessgame {
     constructor(boardID) {
@@ -97,7 +97,7 @@ export class Training extends Chessgame {
         const moveStatus = document.getElementById('move-status')
 
         if (!continu) {
-            console.log('CONGRATULATION');
+            console.log('CONGRATULATION')
             moveStatus.className = 'action correct'
             moveStatus.innerHTML = 'CONGRATULATION'
         } else if (playedMove === correctMove) {

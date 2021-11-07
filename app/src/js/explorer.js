@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
 
 function getOpenings(color) {
     const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
