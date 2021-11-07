@@ -23,21 +23,15 @@ export class Training extends Chessgame {
     //* Opening
     getOpening(color, title) {
         const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
-        let json = JSON.parse(rawdata)
+        const json = JSON.parse(rawdata)
 
         if (title === '') {
-            // Take 1st white opening by default
             this._setOpening(json.white[0])
         } else {
-            // Find opening
-            for (const opening of json[color]) {
-                if (opening.title === title) {
-                    this._setOpening(opening)
-                }
-            }
+            this._findOpening(json[color], title)
         }
-        this._setOpeningTitle(this.title)
-        this._setOpeningColor(color)
+        this.setOpeningTitle(this.title)
+        this.setOpeningColor(color)
         this._setPngArea(this.openingPgn)
         this.updateOpeningColor()
     }
@@ -48,13 +42,21 @@ export class Training extends Chessgame {
         this.openingPgn = opening.pgn
     }
 
-    _setOpeningTitle(title) {
+    _findOpening(jsonColor, title) {
+        for (const opening of jsonColor) {
+            if (opening.title === title) {
+                this._setOpening(opening)
+            }
+        }
+    }
+
+    setOpeningTitle(title) {
         const opeingTitle = document.getElementById('opening-title')
         localStorage.setItem('title', title)
         opeingTitle.innerHTML = title
     }
 
-    _setOpeningColor(color) {
+    setOpeningColor(color) {
         this.color = color
         localStorage.setItem('color', color)
     }

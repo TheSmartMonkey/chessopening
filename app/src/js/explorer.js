@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-function addOpenings(color) {
+function displayOpeningsLinks(color) {
     const explorer = document.getElementById('explorer-' + color)
     const openings = _getOpenings(color)
     let openingLink = ''
@@ -27,5 +27,5 @@ function _getOpenings(color) {
     return openings
 }
 
-addOpenings('white')
-addOpenings('black')
+displayOpeningsLinks('white')
+displayOpeningsLinks('black')
