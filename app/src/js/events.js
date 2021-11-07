@@ -1,13 +1,10 @@
 import { Training } from "./training.js"
 
-const fs = require('fs')
-const path = require('path')
-
 const train = new Training('board')
 train.updateStatus()
 
 //* On click events
-$('#tip').on("click", function () {
+$('#tip').on("click", () => {
     train.highlightMove('c4')
     console.log('DEBUG: ', train.myMoves)
 })
@@ -17,7 +14,7 @@ $('#reset').on("click", function () {
     train.updateOpeningColor()
 })
 
-$('#delete').on("click", function () {
+$('#delete').on("click", () => {
     train.resetAll()
 
     // Delete opening
@@ -41,7 +38,7 @@ $('#delete').on("click", function () {
     document.location.reload()
 })
 
-$('.explorer').on("click", function (event) {
+$('.explorer').on("click", event => {
     train.resetAll()
     train.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
     train.updateStatus()
@@ -49,7 +46,7 @@ $('.explorer').on("click", function (event) {
     event.stopImmediatePropagation()
 })
 
-$('#png-area').on("click", function () {
+$('#png-area').on("click", () => {
     const copyPgn = document.getElementById("png-area")
     copyPgn.select()
     document.execCommand("copy")

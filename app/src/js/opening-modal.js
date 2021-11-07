@@ -48,7 +48,7 @@ function verifyFormTitle(title) {
     return true
 }
 
-$('#submit-form').on("click", function () {
+$('#submit-form').on("click", () => {
     // Get form fields
     const titleInput = document.getElementById('title-input').value
     const pieceColor = document.getElementById('piece-color').checked

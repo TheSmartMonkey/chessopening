@@ -141,7 +141,7 @@ export class Chessgame {
         this.$board.find('.square-55d63').removeClass('highlight-white')
     }
 
-    //* Reset Board
+    //* Board Status
     resetGame() {
         this.board = null
         this.game = new Chess()
