@@ -1,33 +1,57 @@
-import { Training } from "./training.js";
+import { Training } from "./training.js"
+import { OpeningModal } from "./opening-modal.js"
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('fs')
+const path = require('path')
+
+const modal = new OpeningModal()
 
 const train = new Training('board')
 train.updateStatus()
 
-//* On click events
-$('#tip').on("click", function () {
+//* Training
+$('#tip').on("click", () => {
     train.highlightMove('c4')
-    console.log('DEBUG: ', train.myMoves);
-});
+    console.log('DEBUG: ', train.myMoves)
+})
 
 $('#reset').on("click", function () {
     train.resetAll()
     train.updateOpeningColor()
-});
+})
 
-$('#delete').on("click", function () {
+$('#png-area').on("click", () => {
+    const copyPgn = document.getElementById("png-area")
+    copyPgn.select()
+    document.execCommand("copy")
+})
+
+//* Opening
+$('#submit-form').on("click", event => {
+    const { titleInput, pieceColor, pgnInput } = modal.getFormFields()
+    const color = modal.setColor(pieceColor)
+    modal.createOpening(titleInput, pgnInput, color)
+})
+
+$('.explorer').on("click", event => {
+    train.resetAll()
+    train.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
+    train.updateStatus()
+    event.stopPropagation()
+    event.stopImmediatePropagation()
+})
+
+$('#delete').on("click", () => {
     train.resetAll()
 
     // Delete opening
-    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'));
+    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
     let json = JSON.parse(rawdata)
     const color = localStorage.getItem('color')
     let inc = 0
 
     for (const opening of json[color]) {
-        if (opening.title === t.title) {
+        if (opening.title === train.title) {
             json[color].splice(inc, 1)
         }
         inc++
@@ -39,18 +63,4 @@ $('#delete').on("click", function () {
         }
     })
     document.location.reload()
-});
-
-$('.explorer').on("click", function (event) {
-    train.resetAll()
-    train.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
-    train.updateStatus()
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-});
-
-$('#png-area').on("click", function () {
-    const copyPgn = document.getElementById("png-area");
-    copyPgn.select();
-    document.execCommand("copy");
-});
+})

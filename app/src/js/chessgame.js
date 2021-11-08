@@ -14,13 +14,14 @@ export class Chessgame {
         this.$status = $('#status')
         this.$fen = $('#fen')
         this.$pgn = $('#pgn')
-        this.myMoves = []
         this.moves = []
+        this.allMoves = []
         this.currentMoveID = 0
         this.$board = $('#board')
     }
 
     //* Chess board native logic
+    // eslint-disable-next-line no-unused-vars
     onDragStart(source, piece, position, orientation) {
         // Do not pick up pieces if the game is over
         if (this.game.game_over()) return false
@@ -113,10 +114,12 @@ export class Chessgame {
     //* Moves
     addAllMoves() {
         const movesDiv = document.getElementById('moves')
-        for (const move of this.myMoves) {
-            movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move.san + '</button>'
+        let moves = [...this.allMoves]
+        moves = moves.splice(0, this.currentMoveID)
+        for (const move of moves) {
+            movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move + '</button>'
         }
-    }
+    }   
 
     clearMove() {
         const movesDiv = document.getElementById('moves')
@@ -126,7 +129,6 @@ export class Chessgame {
     logMove(move) {
         if (move) {
             move['fen'] = this.game.fen()
-            this.myMoves.push(move)
             this.moves.push(move['fen'])
             return moves
         }
@@ -140,7 +142,7 @@ export class Chessgame {
         this.$board.find('.square-55d63').removeClass('highlight-white')
     }
 
-    //* Reset Board
+    //* Board Status
     resetGame() {
         this.board = null
         this.game = new Chess()

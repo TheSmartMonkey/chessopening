@@ -4,7 +4,8 @@
   "description": "Desktop app that help you learn chess openings and openings variations",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "lint": "eslint src/js/**"
   },
   "repository": "https://github.com/TheSmartMonkey/chessopening",
   "keywords": [
@@ -18,7 +19,8 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^11.1.1",
-    "electron-packager": "^15.2.0"
+    "electron-packager": "^15.2.0",
+    "eslint": "^8.2.0"
   },
   "dependencies": {
     "chess.js": "^0.11.0",
