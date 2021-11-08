@@ -1,6 +1,7 @@
 // Chessgame creates a board of chess
 export class Chessgame {
     constructor(boardID) {
+        // Chessboard
         this.config = {
             orientation: 'white',
             draggable: true,
@@ -11,13 +12,23 @@ export class Chessgame {
         }
         this.board = Chessboard(boardID, this.config)
         this.game = new Chess()
+
+        // get elements
         this.$status = $('#status')
         this.$fen = $('#fen')
         this.$pgn = $('#pgn')
+        this.$board = $('#board')
+
+        // Moves
         this.moves = []
         this.allMoves = []
         this.currentMoveID = 0
-        this.$board = $('#board')
+        
+        // Opening
+        this.openingPgn = ''
+        this.training = []
+        this.title = 'opening'
+        this.color = 'white'
     }
 
     //* Chess board native logic
@@ -146,9 +157,6 @@ export class Chessgame {
     resetGame() {
         this.board = null
         this.game = new Chess()
-        this.$status = $('#status')
-        this.$fen = $('#fen')
-        this.$pgn = $('#pgn')
     }
 
     updateBoard() {

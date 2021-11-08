@@ -97,18 +97,9 @@ export class Training extends Chessgame {
         const correctMove = this.training[this.currentMoveID - 1]
         const continu = this._continueTraining()
 
-        if (continu) {
-            const correct = this._verifyMove(playedMove, correctMove)
-
-            if (correct) {
-                this.resetGame()
-                this._computerMove()
-            } else {
-                this.resetAll()
-                this.updatePosition('start')
-                this.updateOpeningColor()
-            }
-
+        if (continu && playedMove === correctMove) {
+            this.resetGame()
+            this._computerMove()
         } else {
             this.resetAll()
             this.updatePosition('start')
@@ -116,14 +107,6 @@ export class Training extends Chessgame {
         }
 
         this._displayCorrectMessage(playedMove, correctMove, continu)
-    }
-
-    _verifyMove(playedMove, correctMove) {
-        if (playedMove === correctMove) {
-            return true
-        } else {
-            return false
-        }
     }
 
     _computerMove() {
@@ -145,46 +128,39 @@ export class Training extends Chessgame {
             trainingLength--
         }
 
-        if (movesLength === trainingLength) {
-            return false
-        } else {
-            return true
-        }
+        return movesLength === trainingLength ? false : true
     }
 
     _displayCorrectMessage(playedMove, correctMove, continu) {
-        const moveStatus = document.getElementById('move-status')
-
         if (!continu) {
-            console.log('CONGRATULATION')
-            moveStatus.className = 'action correct'
-            moveStatus.innerHTML = 'CONGRATULATION'
+            this._displayMessage('action correct', 'CONGRATULATION')
         } else if (playedMove === correctMove) {
-            moveStatus.className = 'action correct'
-            moveStatus.innerHTML = 'CORRECT'
+            this._displayMessage('action correct', 'CORRECT')
         } else {
-            moveStatus.className = 'action not-correct'
-            moveStatus.innerHTML = 'NOT CORRECT'
+            this._displayMessage('action not-correct', 'NOT CORRECT')
         }
     }
 
     //* Board Status
     resetAll() {
-        const moveStatus = document.getElementById('move-status')
         this.resetGame()
         this.removeAllHighlightMoves()
 
         // Reset Moves
-        this.allMoves = []
         this.moves = []
         this.currentMoveID = 0
 
         // Reset training message
-        moveStatus.className = 'action'
-        moveStatus.innerHTML = 'PLAY A MOVE'
+        this._displayMessage('action', 'PLAY A MOVE')
 
         // Reset config
         this.config.position = 'start'
         this.updateBoard()
+    }
+
+    _displayMessage(className, message) {
+        const moveStatus = document.getElementById('move-status')
+        moveStatus.className = className
+        moveStatus.innerHTML = message
     }
 }

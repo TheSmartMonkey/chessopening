@@ -5,7 +5,6 @@ const fs = require('fs')
 const path = require('path')
 
 const modal = new OpeningModal()
-
 const train = new Training('board')
 train.updateStatus()
 
@@ -27,7 +26,7 @@ $('#png-area').on("click", () => {
 })
 
 //* Opening
-$('#submit-form').on("click", event => {
+$('#submit-form').on("click", () => {
     const { titleInput, pieceColor, pgnInput } = modal.getFormFields()
     const color = modal.setColor(pieceColor)
     modal.createOpening(titleInput, pgnInput, color)
