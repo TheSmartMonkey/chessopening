@@ -19,42 +19,26 @@ export class OpeningModal {
     createOpening(title, pgn, color) {
         try {
             this._verifyFormTitle(title)
-            this._dumpOpening(title, pgn, color, this._getFenFromPgn(pgn))
+            this._dumpOpening(title, pgn, color)
             this._formOk()
         } catch (error) {
             console.error(error);
         }
     }
 
-    _dumpOpening(title, pgn, color, moves) {
+    _dumpOpening(title, pgn, color) {
         const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
         let json = JSON.parse(rawdata)
         json[color].push({
             'title': title,
-            'pgn': pgn,
-            'moves': moves
+            'pgn': pgn
         })
     
         fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err){
             if (err){
-                const errorPgn = document.getElementById('error-pgn')
-                errorPgn.innerHTML = 'PGN wrong format'
-                console.log(err)
+                this._formError('error-pgn', 'PGN wrong format')
             }
         })
-    }
-
-    _getFenFromPgn(pgn) {
-        const chess1 = new Chess()
-        const chess2 = new Chess()
-    
-        chess1.load_pgn(pgn)
-        let moves = chess1.history().map(move => {
-            chess2.move(move)
-            return chess2.fen()
-        })
-    
-        return moves
     }
 
     _verifyFormTitle(title) {
@@ -84,6 +68,6 @@ export class OpeningModal {
     _formError(element, errorText) {
         const errorPlaceholder = document.getElementById(element)
         errorPlaceholder.innerHTML = errorText
-        throw errorText;
+        throw Error(errorText);
     }
 }

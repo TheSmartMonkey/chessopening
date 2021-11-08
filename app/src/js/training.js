@@ -30,14 +30,16 @@ export class Training extends Chessgame {
         } else {
             this._findOpening(json[color], title)
         }
-        this.setOpeningTitle(this.title)
-        this.setOpeningColor(color)
+        this._setOpeningTitle(this.title)
+        this._setOpeningColor(color)
         this._setPngArea(this.openingPgn)
         this.updateOpeningColor()
     }
 
     _setOpening(opening) {
-        this.training = opening.moves
+        const moves = this._getMovesFromPgn(opening.pgn)
+        this.training = moves.map( ({ fen }) => fen)
+        this.allMoves = moves.map( ({ move }) => move)
         this.title = opening.title
         this.openingPgn = opening.pgn
     }
@@ -50,13 +52,27 @@ export class Training extends Chessgame {
         }
     }
 
-    setOpeningTitle(title) {
+    _getMovesFromPgn(pgn) {
+        const chess1 = new Chess()
+        const chess2 = new Chess()
+    
+        chess1.load_pgn(pgn)
+        const moves = chess1.history().map(move => {
+            chess2.move(move)
+            const fen = chess2.fen()
+            return { fen, move }
+        })
+    
+        return moves
+    }
+
+    _setOpeningTitle(title) {
         const opeingTitle = document.getElementById('opening-title')
         localStorage.setItem('title', title)
         opeingTitle.innerHTML = title
     }
 
-    setOpeningColor(color) {
+    _setOpeningColor(color) {
         this.color = color
         localStorage.setItem('color', color)
     }
@@ -159,7 +175,7 @@ export class Training extends Chessgame {
         this.removeAllHighlightMoves()
 
         // Reset Moves
-        this.myMoves = []
+        this.allMoves = []
         this.moves = []
         this.currentMoveID = 0
 

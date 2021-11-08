@@ -14,8 +14,8 @@ export class Chessgame {
         this.$status = $('#status')
         this.$fen = $('#fen')
         this.$pgn = $('#pgn')
-        this.myMoves = []
         this.moves = []
+        this.allMoves = []
         this.currentMoveID = 0
         this.$board = $('#board')
     }
@@ -114,10 +114,12 @@ export class Chessgame {
     //* Moves
     addAllMoves() {
         const movesDiv = document.getElementById('moves')
-        for (const move of this.myMoves) {
-            movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move.san + '</button>'
+        let moves = [...this.allMoves]
+        moves = moves.splice(0, this.currentMoveID)
+        for (const move of moves) {
+            movesDiv.innerHTML += '<button class="btn1 btn1-grey">' + move + '</button>'
         }
-    }
+    }   
 
     clearMove() {
         const movesDiv = document.getElementById('moves')
@@ -127,7 +129,6 @@ export class Chessgame {
     logMove(move) {
         if (move) {
             move['fen'] = this.game.fen()
-            this.myMoves.push(move)
             this.moves.push(move['fen'])
             return moves
         }
