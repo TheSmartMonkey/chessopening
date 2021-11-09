@@ -57,7 +57,6 @@ export class Chessgame {
 
         // Moves positions
         this.logMove(move)
-        this.clearMove()
         this.addAllMoves()
         this.currentMoveID++
 
@@ -109,9 +108,13 @@ export class Chessgame {
     }
 
     updatePosition(fen) {
-        this.config.position = fen
-        this.game.load(this.config.position)
-        this.board = Chessboard('board', this.config)
+        if (fen) {
+            this.config.position = fen
+            this.game.load(this.config.position)
+            this.board = Chessboard('board', this.config)
+        } else {
+            this.resetGame()
+        }
         this.updateBoard()
     }
 
@@ -124,6 +127,7 @@ export class Chessgame {
 
     //* Moves
     addAllMoves() {
+        this.clearMove()
         const movesDiv = document.getElementById('moves')
         let moves = [...this.allMoves]
         moves = moves.splice(0, this.currentMoveID)
@@ -141,7 +145,6 @@ export class Chessgame {
         if (move) {
             move['fen'] = this.game.fen()
             this.moves.push(move['fen'])
-            return moves
         }
     }
 

@@ -15,7 +15,6 @@ export class Training extends Chessgame {
 
     //* Overloaded Chessboard methodes
     onDropEvent() {
-        this.updateStatus()
         this._trainOpening()
         this.updateStatus()
     }
@@ -93,20 +92,24 @@ export class Training extends Chessgame {
     }
 
     _trainOpening() {
-        const playedMove = this.moves[this.currentMoveID - 1]
-        const correctMove = this.training[this.currentMoveID - 1]
+        const moveCorrect = this._isMoveCorrect()
         const continu = this._continueTraining()
 
-        if (continu && playedMove === correctMove) {
-            this.resetGame()
+        if (continu && moveCorrect) {
             this._computerMove()
+        } else if (!moveCorrect) {
+            this._stayAtCurrentPosition()
         } else {
             this.resetAll()
             this.updatePosition('start')
             this.updateOpeningColor()
         }
 
-        this._displayCorrectMessage(playedMove, correctMove, continu)
+        this._displayCorrectMessage(moveCorrect, continu)
+    }
+
+    _isMoveCorrect() {
+        return this.moves[this.currentMoveID - 1] === this.training[this.currentMoveID - 1]
     }
 
     _computerMove() {
@@ -114,6 +117,13 @@ export class Training extends Chessgame {
         this.moves.push(computerMove)
         this.currentMoveID++
         this.updatePosition(computerMove)
+    }
+
+    _stayAtCurrentPosition() {
+        this.moves.pop()
+        this.currentMoveID--
+        const previousMove = this.training[this.currentMoveID - 1]
+        this.updatePosition(previousMove)
     }
 
     _continueTraining() {
@@ -131,10 +141,10 @@ export class Training extends Chessgame {
         return movesLength === trainingLength ? false : true
     }
 
-    _displayCorrectMessage(playedMove, correctMove, continu) {
-        if (!continu) {
+    _displayCorrectMessage(moveCorrect, continu) {
+        if (moveCorrect && !continu) {
             this._displayMessage('action correct', 'CONGRATULATION')
-        } else if (playedMove === correctMove) {
+        } else if (moveCorrect) {
             this._displayMessage('action correct', 'CORRECT')
         } else {
             this._displayMessage('action not-correct', 'NOT CORRECT')
