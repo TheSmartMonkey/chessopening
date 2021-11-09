@@ -35,6 +35,10 @@ export class Training extends Chessgame {
         this.updateOpeningColor()
     }
 
+    _createOpeningFile() {
+        
+    }
+
     _setOpening(opening) {
         const moves = this._getMovesFromPgn(opening.pgn)
         this.training = moves.map( ({ fen }) => fen)
