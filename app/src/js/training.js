@@ -154,7 +154,7 @@ export class Training extends Chessgame {
     //* Board Status
     resetAll() {
         this.resetGame()
-        this.removeAllHighlightMoves()
+        this._removeAllHighlightMoves()
 
         // Reset Moves
         this.moves = []

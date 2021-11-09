@@ -10,8 +10,7 @@ train.updateStatus()
 
 //* Training
 $('#tip').on("click", () => {
-    train.highlightMove('c4')
-    console.log('DEBUG: ', train.myMoves)
+    train.giveTip()
 })
 
 $('#reset').on("click", function () {
