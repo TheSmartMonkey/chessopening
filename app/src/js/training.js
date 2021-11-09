@@ -15,7 +15,6 @@ export class Training extends Chessgame {
 
     //* Overloaded Chessboard methodes
     onDropEvent() {
-        this.updateStatus()
         this._trainOpening()
         this.updateStatus()
     }
@@ -93,37 +92,24 @@ export class Training extends Chessgame {
     }
 
     _trainOpening() {
-        const playedMove = this.moves[this.currentMoveID - 1]
-        const correctMove = this.training[this.currentMoveID - 1]
+        const moveCorrect = this._isMoveCorrect()
         const continu = this._continueTraining()
 
-        if (continu) {
-            const correct = this._verifyMove(playedMove, correctMove)
-
-            if (correct) {
-                this.resetGame()
-                this._computerMove()
-            } else {
-                this.resetAll()
-                this.updatePosition('start')
-                this.updateOpeningColor()
-            }
-
+        if (continu && moveCorrect) {
+            this._computerMove()
+        } else if (!moveCorrect) {
+            this._stayAtCurrentPosition()
         } else {
             this.resetAll()
             this.updatePosition('start')
             this.updateOpeningColor()
         }
 
-        this._displayCorrectMessage(playedMove, correctMove, continu)
+        this._displayCorrectMessage(moveCorrect, continu)
     }
 
-    _verifyMove(playedMove, correctMove) {
-        if (playedMove === correctMove) {
-            return true
-        } else {
-            return false
-        }
+    _isMoveCorrect() {
+        return this.moves[this.currentMoveID - 1] === this.training[this.currentMoveID - 1]
     }
 
     _computerMove() {
@@ -131,6 +117,13 @@ export class Training extends Chessgame {
         this.moves.push(computerMove)
         this.currentMoveID++
         this.updatePosition(computerMove)
+    }
+
+    _stayAtCurrentPosition() {
+        this.moves.pop()
+        this.currentMoveID--
+        const previousMove = this.training[this.currentMoveID - 1]
+        this.updatePosition(previousMove)
     }
 
     _continueTraining() {
@@ -145,46 +138,39 @@ export class Training extends Chessgame {
             trainingLength--
         }
 
-        if (movesLength === trainingLength) {
-            return false
-        } else {
-            return true
-        }
+        return movesLength === trainingLength ? false : true
     }
 
-    _displayCorrectMessage(playedMove, correctMove, continu) {
-        const moveStatus = document.getElementById('move-status')
-
-        if (!continu) {
-            console.log('CONGRATULATION')
-            moveStatus.className = 'action correct'
-            moveStatus.innerHTML = 'CONGRATULATION'
-        } else if (playedMove === correctMove) {
-            moveStatus.className = 'action correct'
-            moveStatus.innerHTML = 'CORRECT'
+    _displayCorrectMessage(moveCorrect, continu) {
+        if (moveCorrect && !continu) {
+            this._displayMessage('action correct', 'CONGRATULATION')
+        } else if (moveCorrect) {
+            this._displayMessage('action correct', 'CORRECT')
         } else {
-            moveStatus.className = 'action not-correct'
-            moveStatus.innerHTML = 'NOT CORRECT'
+            this._displayMessage('action not-correct', 'NOT CORRECT')
         }
     }
 
     //* Board Status
     resetAll() {
-        const moveStatus = document.getElementById('move-status')
         this.resetGame()
         this.removeAllHighlightMoves()
 
         // Reset Moves
-        this.allMoves = []
         this.moves = []
         this.currentMoveID = 0
 
         // Reset training message
-        moveStatus.className = 'action'
-        moveStatus.innerHTML = 'PLAY A MOVE'
+        this._displayMessage('action', 'PLAY A MOVE')
 
         // Reset config
         this.config.position = 'start'
         this.updateBoard()
+    }
+
+    _displayMessage(className, message) {
+        const moveStatus = document.getElementById('move-status')
+        moveStatus.className = className
+        moveStatus.innerHTML = message
     }
 }

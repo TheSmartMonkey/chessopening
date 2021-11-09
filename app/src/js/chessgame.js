@@ -1,6 +1,7 @@
 // Chessgame creates a board of chess
 export class Chessgame {
     constructor(boardID) {
+        // Chessboard
         this.config = {
             orientation: 'white',
             draggable: true,
@@ -11,13 +12,23 @@ export class Chessgame {
         }
         this.board = Chessboard(boardID, this.config)
         this.game = new Chess()
+
+        // get elements
         this.$status = $('#status')
         this.$fen = $('#fen')
         this.$pgn = $('#pgn')
+        this.$board = $('#board')
+
+        // Moves
         this.moves = []
         this.allMoves = []
         this.currentMoveID = 0
-        this.$board = $('#board')
+        
+        // Opening
+        this.openingPgn = ''
+        this.training = []
+        this.title = 'opening'
+        this.color = 'white'
     }
 
     //* Chess board native logic
@@ -46,7 +57,6 @@ export class Chessgame {
 
         // Moves positions
         this.logMove(move)
-        this.clearMove()
         this.addAllMoves()
         this.currentMoveID++
 
@@ -98,9 +108,13 @@ export class Chessgame {
     }
 
     updatePosition(fen) {
-        this.config.position = fen
-        this.game.load(this.config.position)
-        this.board = Chessboard('board', this.config)
+        if (fen) {
+            this.config.position = fen
+            this.game.load(this.config.position)
+            this.board = Chessboard('board', this.config)
+        } else {
+            this.resetGame()
+        }
         this.updateBoard()
     }
 
@@ -113,6 +127,7 @@ export class Chessgame {
 
     //* Moves
     addAllMoves() {
+        this.clearMove()
         const movesDiv = document.getElementById('moves')
         let moves = [...this.allMoves]
         moves = moves.splice(0, this.currentMoveID)
@@ -130,7 +145,6 @@ export class Chessgame {
         if (move) {
             move['fen'] = this.game.fen()
             this.moves.push(move['fen'])
-            return moves
         }
     }
 
@@ -146,9 +160,6 @@ export class Chessgame {
     resetGame() {
         this.board = null
         this.game = new Chess()
-        this.$status = $('#status')
-        this.$fen = $('#fen')
-        this.$pgn = $('#pgn')
     }
 
     updateBoard() {
