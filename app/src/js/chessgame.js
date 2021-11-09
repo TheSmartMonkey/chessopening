@@ -148,12 +148,31 @@ export class Chessgame {
         }
     }
 
-    highlightMove(position) {
+    giveTip() {
+        const lastMoveID = this.currentMoveID ? this.currentMoveID : 0
+        this._removeAllHighlightMoves()
+        this._highlightMove(this._getMovesPosition(lastMoveID))
+    }
+
+    _highlightMove(position) {
         this.$board.find('.square-' + position).addClass('highlight-white')
     }
 
-    removeAllHighlightMoves() {
+    _removeAllHighlightMoves() {
         this.$board.find('.square-55d63').removeClass('highlight-white')
+    }
+
+    _getMovesPosition(moveID) {
+        const moves = []
+        for (const move of this.allMoves) {
+            if (move === 'O-O-O' || move === 'O-O') {
+                moves.push(this.color === 'black' ? 'e8' : 'e1')
+            } else {
+                const newMove = move.substr(move.length - 2);
+                moves.push(newMove)
+            }
+        }
+        return moves[moveID]
     }
 
     //* Board Status
