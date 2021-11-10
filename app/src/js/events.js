@@ -56,9 +56,7 @@ $('#delete').on("click", () => {
     }
 
     fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err) {
-        if (err) {
-            console.log(err)
-        }
+        if (err) throw err
     })
     document.location.reload()
 })

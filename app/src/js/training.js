@@ -1,6 +1,7 @@
 import { Chessgame } from "./chessgame.js"
 
 const fs = require('fs')
+const { promises: Fs } = require('fs')
 const path = require('path')
 
 export class Training extends Chessgame {
@@ -20,9 +21,8 @@ export class Training extends Chessgame {
     }
 
     //* Opening
-    getOpening(color, title) {
-        const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
-        const json = JSON.parse(rawdata)
+    async getOpening(color, title) {
+        const json = await this._createOpeningFile()
 
         if (title === '') {
             this._setOpening(json.white[0])
@@ -35,8 +35,20 @@ export class Training extends Chessgame {
         this.updateOpeningColor()
     }
 
-    _createOpeningFile() {
-        
+    async _createOpeningFile() {
+        const filePath = path.resolve(__dirname, 'openings.json')
+        let exist = fs.existsSync(filePath)
+
+        if (!exist) {
+            const exemplePath = path.resolve(__dirname, 'openings-exemple.json')
+            fs.copyFile(exemplePath, filePath, (err) => {
+                if (err) throw err
+            });
+            await Fs.access(filePath)
+        }
+
+        const rawdata = fs.readFileSync(filePath)
+        return JSON.parse(rawdata)
     }
 
     _setOpening(opening) {
