@@ -1,12 +1,20 @@
 import { Training } from "./training.js"
 import { OpeningModal } from "./opening-modal.js"
+import { createOpeningFile } from "./utils.js"
 
 const fs = require('fs')
 const path = require('path')
 
+//* Init
 const modal = new OpeningModal()
 const train = new Training('board')
-train.updateStatus()
+
+let json
+(async function () {
+    json = await createOpeningFile()
+    train.getOpening(json, train.color, '')
+    train.updateStatus()
+})()
 
 //* Training
 $('#tip').on("click", () => {

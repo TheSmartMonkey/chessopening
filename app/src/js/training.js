@@ -1,9 +1,5 @@
 import { Chessgame } from "./chessgame.js"
 
-const fs = require('fs')
-const { promises: Fs } = require('fs')
-const path = require('path')
-
 export class Training extends Chessgame {
     constructor(boardID) {
         super(boardID)
@@ -11,7 +7,6 @@ export class Training extends Chessgame {
         this.training = []
         this.title = 'opening'
         this.color = 'white'
-        this.getOpening(this.color, '')
     }
 
     //* Overloaded Chessboard methodes
@@ -21,34 +16,12 @@ export class Training extends Chessgame {
     }
 
     //* Opening
-    async getOpening(color, title) {
-        const json = await this._createOpeningFile()
-
-        if (title === '') {
-            this._setOpening(json.white[0])
-        } else {
-            this._findOpening(json[color], title)
-        }
+    getOpening(json, color, title) {
+        title === '' ? this._setOpening(json.white[0]) : this._findOpening(json[color], title)
         this._setOpeningTitle(this.title)
         this._setOpeningColor(color)
         this._setPngArea(this.openingPgn)
         this.updateOpeningColor()
-    }
-
-    async _createOpeningFile() {
-        const filePath = path.resolve(__dirname, 'openings.json')
-        let exist = fs.existsSync(filePath)
-
-        if (!exist) {
-            const exemplePath = path.resolve(__dirname, 'openings-exemple.json')
-            fs.copyFile(exemplePath, filePath, (err) => {
-                if (err) throw err
-            });
-            await Fs.access(filePath)
-        }
-
-        const rawdata = fs.readFileSync(filePath)
-        return JSON.parse(rawdata)
     }
 
     _setOpening(opening) {
