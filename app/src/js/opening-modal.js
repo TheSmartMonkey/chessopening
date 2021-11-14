@@ -35,9 +35,7 @@ export class OpeningModal {
         })
     
         fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err){
-            if (err){
-                this._formError('error-pgn', 'PGN wrong format')
-            }
+            if (err) this._formError('error-pgn', 'PGN wrong format')
         })
     }
 

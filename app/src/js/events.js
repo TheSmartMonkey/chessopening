@@ -1,12 +1,20 @@
 import { Training } from "./training.js"
 import { OpeningModal } from "./opening-modal.js"
+import { createOpeningFile } from "./utils.js"
 
 const fs = require('fs')
 const path = require('path')
 
+//* Init
 const modal = new OpeningModal()
 const train = new Training('board')
-train.updateStatus()
+
+let json
+(async function () {
+    json = await createOpeningFile()
+    train.getOpening(json, train.color, '')
+    train.updateStatus()
+})()
 
 //* Training
 $('#tip').on("click", () => {
@@ -33,7 +41,7 @@ $('#submit-form').on("click", () => {
 
 $('.explorer').on("click", event => {
     train.resetAll()
-    train.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
+    train.getOpening(json, localStorage.getItem('color'), localStorage.getItem('title'))
     train.updateStatus()
     event.stopPropagation()
     event.stopImmediatePropagation()
@@ -56,9 +64,7 @@ $('#delete').on("click", () => {
     }
 
     fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err) {
-        if (err) {
-            console.log(err)
-        }
+        if (err) throw err
     })
     document.location.reload()
 })

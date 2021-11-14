@@ -1,8 +1,5 @@
 import { Chessgame } from "./chessgame.js"
 
-const fs = require('fs')
-const path = require('path')
-
 export class Training extends Chessgame {
     constructor(boardID) {
         super(boardID)
@@ -10,7 +7,6 @@ export class Training extends Chessgame {
         this.training = []
         this.title = 'opening'
         this.color = 'white'
-        this.getOpening(this.color, '')
     }
 
     //* Overloaded Chessboard methodes
@@ -20,15 +16,8 @@ export class Training extends Chessgame {
     }
 
     //* Opening
-    getOpening(color, title) {
-        const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
-        const json = JSON.parse(rawdata)
-
-        if (title === '') {
-            this._setOpening(json.white[0])
-        } else {
-            this._findOpening(json[color], title)
-        }
+    getOpening(json, color, title) {
+        title === '' ? this._setOpening(json.white[0]) : this._findOpening(json[color], title)
         this._setOpeningTitle(this.title)
         this._setOpeningColor(color)
         this._setPngArea(this.openingPgn)
