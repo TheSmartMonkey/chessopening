@@ -41,7 +41,7 @@ $('#submit-form').on("click", () => {
 
 $('.explorer').on("click", event => {
     train.resetAll()
-    train.getOpening(localStorage.getItem('color'), localStorage.getItem('title'))
+    train.getOpening(json, localStorage.getItem('color'), localStorage.getItem('title'))
     train.updateStatus()
     event.stopPropagation()
     event.stopImmediatePropagation()
