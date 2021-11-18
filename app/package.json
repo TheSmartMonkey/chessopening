@@ -20,7 +20,6 @@
   "author": "TheSmartMonkey",
   "license": "CC0-1.0",
   "devDependencies": {
-    "babel-jest": "^27.3.1",
     "electron": "^11.1.1",
     "electron-packager": "^15.2.0",
     "eslint": "^8.2.0",
