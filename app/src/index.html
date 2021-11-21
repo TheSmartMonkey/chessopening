@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/position.css">
   <link rel="stylesheet" href="css/button.css">
   <link rel="stylesheet" href="css/switch.css">
+  <link rel="stylesheet" href="css/dropdown.css">
   <link rel="stylesheet" href="css/chessboard.css">
 
   <!-- JS Librairies -->
@@ -27,14 +28,14 @@
 </head>
 
 <body>
-  <img src="assets/folder-close.png" alt="close" width="24px" height="24px">
-  <img src="assets/folder-open.png" alt="open" width="24px" height="24px">
   <!-- Sidebar -->
   <div class="w3-sidebar sidenav w3-bar-block">
     <!-- Modal create opening -->
     <div class="w3-container modal-container flex-center">
       <button onclick="document.getElementById('opening-modal').style.display='block'" id="open-modal"
-        class="btn2 btn2-green">Create Opening</button>
+        class="btn2 btn2-green">
+        Create Opening
+      </button>
 
       <div id="opening-modal" class="w3-modal">
         <div class="w3-modal-content">
@@ -63,8 +64,24 @@
                 <span>Black</span>
               </div>
 
-              <!-- PGN input -->
+              <!-- Folder input -->
               <div>
+                <label>Folder</label>
+                <input class="w3-input w3-border w3-round" value="opening title" id="title-input" name="title-input"
+                  type="text">
+              </div>
+              <div class="error-message flex-center" id="error-folder-create"></div>  
+              <div class="dropdown">
+                <button class="dropbtn" onclick="return false">Dropdown</button>
+                <div id="dropdown-content" class="dropdown-content">
+                  <a onclick="console.log('test')">Link 1</a>
+                  <a href="#">Link 2</a>
+                  <a href="#">Link 3</a>
+                </div>
+              </div> 
+
+              <!-- PGN input -->
+              <div style="margin-top: 50px;">
                 <label>Copy PGN from : <a target="_blank" href="https://lichess.org/analysis">lichess.org</a></label>
                 <input class="w3-input w3-border w3-round" value="1. e4 e5 2. Nf3 Nc6 3. Bb5" id="pgn-input"
                   name="pgn-input" type="text">
