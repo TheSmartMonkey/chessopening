@@ -18,6 +18,18 @@ function displayFolders(color) {
     }
 }
 
+function populateDropdownFolders() {
+    const explorer = document.getElementById('dropdown-content')
+    const json = _getOpeningFile()
+    const folders = [..._getFolders('white', json), ..._getFolders('black', json)]
+    let dropdownLinks = ''
+
+    for (const folder of folders) {
+        dropdownLinks = '<a onclick="dropdownSelectFolder(\'' + folder + '\')">' + folder + '</a>'
+        explorer.innerHTML += dropdownLinks
+    }
+}
+
 function _displayOpeningsLinks(color, json, folder) {
     const explorer = document.getElementById('folder-' + folder)
     const openings = _getFolderOpenings(color, json, folder)
@@ -73,6 +85,11 @@ function openFolder(folderId) {
     _toggleHidden(folderId)
 }
 
+function dropdownSelectFolder(folder) {
+    const inputFolder = document.getElementById('folder-input')
+    inputFolder.value = folder
+}
+
 function _toggleImage(folderId) {
     const image = document.getElementById('img-' + folderId)
     const src = image.getAttribute('src')
@@ -87,3 +104,4 @@ function _toggleHidden(folderId) {
 
 displayFolders('white')
 displayFolders('black')
+populateDropdownFolders()
