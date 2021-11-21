@@ -1,0 +1,12 @@
+:root {
+    --green: #4CAF50;
+    --green-hover: #3e8e41;
+    --red: #ff1a1a; 
+    --red-hover: #cc0000; 
+    --blue: #1a75ff; 
+    --blue-hover: #0052cc;
+
+    --grey: #e7e7e7;
+    --light-grey: rgb(240, 240, 240);
+
+}

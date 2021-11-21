@@ -1,6 +1,5 @@
-/* Simple Button */
+@import 'varaibles.css';
 
-/* Position button */
 .btn-icon {
     border: none;
     color: black;
@@ -25,11 +24,11 @@
 .btn1-grey {
     background-color: white;
     color: black;
-    border: 2px solid #e7e7e7;
+    border: 2px solid var(--grey);
 }
 
 .btn1-grey:hover {
-    background-color: #e7e7e7;
+    background-color: var(--grey);
 }
 
 .btn2 {
@@ -44,27 +43,27 @@
 }
 
 .btn2-green {
-    background-color: #4CAF50;
+    background-color: var(--green);
 }
 
 .btn2-green:hover {
-    background-color: #3e8e41;
+    background-color: var(--green-hover);
 }
 
 .btn2-red {
-    background-color: #ff1a1a;
+    background-color: var(--red);
 }
 
 .btn2-red:hover {
-    background-color: #cc0000;
+    background-color: var(--red-hover);
 }
 
 .btn2-blue {
-    background-color: #1a75ff;
+    background-color: var(--blue);
 }
 
 .btn2-blue:hover {
-    background-color: #0052cc;
+    background-color: var(--blue-hover);
 }
 
 /* Icon button */

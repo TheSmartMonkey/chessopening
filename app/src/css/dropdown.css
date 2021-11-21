@@ -1,5 +1,7 @@
+@import 'varaibles.css';
+
 .dropbtn {
-    background-color: #04aa6d;
+    background-color: var(--green);
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -36,5 +38,5 @@
 }
 
 .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+    background-color: var(--green-hover);
 }

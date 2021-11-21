@@ -1,4 +1,5 @@
-/* Global */
+@import 'varaibles.css';
+
 .sidenav {
     height: 98%;
     width: 20%;
@@ -68,11 +69,11 @@
 }
 
 .correct {
-    color: #4CAF50;
+    color: var(--green);
 }
 
 .not-correct {
-    color: #ff1a1a;
+    color: var(--red);
 }
 
 /* Modal */
@@ -82,7 +83,7 @@
 
 .error-message {
     margin-top: 10px;
-    color: #ff1a1a;
+    color: var(--red);
 }
 
 /* Explorer */
@@ -109,5 +110,5 @@
 }
 
 .explorer-action:hover {
-    background-color: rgb(240, 240, 240);
+    background-color: var(--light-grey)
 }
