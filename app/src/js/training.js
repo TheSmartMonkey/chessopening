@@ -132,11 +132,11 @@ export class Training extends Chessgame {
 
     _displayCorrectMessage(moveCorrect, continu) {
         if (moveCorrect && !continu) {
-            this._displayMessage('action correct', 'CONGRATULATION')
+            this._displayMessage('action correct flex-center', 'CONGRATULATION')
         } else if (moveCorrect) {
-            this._displayMessage('action correct', 'CORRECT')
+            this._displayMessage('action correct flex-center', 'CORRECT')
         } else {
-            this._displayMessage('action not-correct', 'NOT CORRECT')
+            this._displayMessage('action not-correct flex-center', 'NOT CORRECT')
         }
     }
 

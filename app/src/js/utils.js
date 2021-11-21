@@ -4,7 +4,7 @@ const path = require('path')
 
 export async function createOpeningFile() {
     const filePath = path.resolve(__dirname, 'openings.json')
-    let exist = fs.existsSync(filePath)
+    const exist = fs.existsSync(filePath)
 
     if (!exist) {
         const exemplePath = path.resolve(__dirname, 'openings-exemple.json')

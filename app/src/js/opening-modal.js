@@ -5,8 +5,9 @@ export class OpeningModal {
     getFormFields() {
         const titleInput = document.getElementById('title-input').value
         const pieceColor = document.getElementById('piece-color').checked
+        const folderInput = document.getElementById('folder-input').value
         const pgnInput = document.getElementById('pgn-input').value
-        return { titleInput, pieceColor, pgnInput }
+        return { titleInput, pieceColor, folderInput, pgnInput }
     }
 
     setColor(pieceColor) {
@@ -16,23 +17,20 @@ export class OpeningModal {
         return 'white'
     }
 
-    createOpening(title, pgn, color) {
+    createOpening(title, folder, pgn, color) {
         try {
             this._verifyFormTitle(title)
-            this._dumpOpening(title, pgn, color)
+            this._dumpOpening(title, folder, pgn, color)
             this._formOk()
         } catch (error) {
             console.error(error);
         }
     }
 
-    _dumpOpening(title, pgn, color) {
+    _dumpOpening(title, folder, pgn, color) {
         const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
         let json = JSON.parse(rawdata)
-        json[color].push({
-            'title': title,
-            'pgn': pgn
-        })
+        json[color].push({title, folder, pgn})
     
         fs.writeFile(path.resolve(__dirname, 'openings.json'), JSON.stringify(json), 'utf8', function readFileCallback(err){
             if (err) this._formError('error-pgn', 'PGN wrong format')

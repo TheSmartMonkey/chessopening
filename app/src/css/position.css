@@ -1,4 +1,5 @@
-/* Global */
+@import 'varaibles.css';
+
 .sidenav {
     height: 98%;
     width: 20%;
@@ -9,18 +10,14 @@
 }
 
 .modal-container {
-    display: flex;
-    justify-content: center;
     margin-top: 20px;
 }
 
 .form-container {
-    margin: 20px 0 20px 0;
+    margin: 20px 0;
 }
 
 .opening-title {
-    display: flex;
-    justify-content: center;
     margin-bottom: 50px;
     text-transform: capitalize;
 }
@@ -36,7 +33,6 @@
 }
 
 .board-container {
-    display: flex;
     margin-left: 25%;
 }
 
@@ -46,11 +42,6 @@
 }
 
 /* Moves */
-.buttons {
-    display: flex;
-    justify-content: center;
-}
-
 .btn-sep {
     margin-right: 20px;
 }
@@ -70,9 +61,7 @@
 
 /* Actions */
 .action {
-    display: flex;
-    justify-content: center;
-    margin: 50px 0 50px 0;
+    margin: 50px 0;
 }
 
 .btn-tip {
@@ -80,23 +69,21 @@
 }
 
 .correct {
-    color: #4CAF50;
+    color: var(--green);
 }
 
 .not-correct {
-    color: #ff1a1a;
+    color: var(--red);
 }
 
 /* Modal */
 .switch-color {
-    margin: 50px 0 50px 0;
+    margin: 50px 10px;
 }
 
 .error-message {
-    display: flex;
-    justify-content: center;
     margin-top: 10px;
-    color: #ff1a1a;
+    color: var(--red);
 }
 
 /* Explorer */
@@ -108,14 +95,20 @@
     font-weight: bold;
 }
 
-.explorer {
-    margin-left: 10px;
+.folder-text {
+    margin-left: 5px;
 }
 
 .opening-link {
+    margin-left: 20px;
     width : 240px;
     overflow: hidden;
     display: inline-block;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-decoration: none;
+}
+
+.explorer-action:hover {
+    background-color: var(--light-grey)
 }

@@ -34,9 +34,9 @@ $('#png-area').on("click", () => {
 
 //* Opening
 $('#submit-form').on("click", () => {
-    const { titleInput, pieceColor, pgnInput } = modal.getFormFields()
+    const { titleInput, pieceColor, folderInput, pgnInput } = modal.getFormFields()
     const color = modal.setColor(pieceColor)
-    modal.createOpening(titleInput, pgnInput, color)
+    modal.createOpening(titleInput, folderInput, pgnInput, color)
 })
 
 $('.explorer').on("click", event => {
