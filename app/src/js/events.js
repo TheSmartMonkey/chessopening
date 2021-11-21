@@ -17,6 +17,14 @@ let json
 })()
 
 //* Training
+$('#training-mode').on("click", () => {
+    train.selectTrainingMode('training')
+})
+
+$('#puzzle-mode').on("click", () => {
+    train.selectTrainingMode('puzzle')
+})
+
 $('#tip').on("click", () => {
     train.giveTip()
 })

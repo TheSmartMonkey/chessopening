@@ -4,6 +4,8 @@ export class Training extends Chessgame {
     constructor(boardID) {
         super(boardID)
         this.openingPgn = ''
+        this.mode = 'training'
+        this.selectTrainingMode(this.mode)
         this.training = []
         this.title = 'opening'
         this.color = 'white'
@@ -155,6 +157,27 @@ export class Training extends Chessgame {
         // Reset config
         this.config.position = 'start'
         this.updateBoard()
+    }
+
+    selectTrainingMode(mode) {
+        this.mode = mode
+        const trainingButton = document.getElementById('training-mode')
+        const puzzleButton = document.getElementById('puzzle-mode')
+
+        switch (mode) {
+            case 'training':
+                trainingButton.className = 'btn2 btn2-green'
+                puzzleButton.className = 'btn2 btn2-grey'
+                break;
+            case 'puzzle':
+                trainingButton.className = 'btn2 btn2-grey'
+                puzzleButton.className = 'btn2 btn2-green'
+                break;
+            default:
+                trainingButton.className = 'btn2 btn2-green'
+                puzzleButton.className = 'btn2 btn2-grey'
+                break;
+        }
     }
 
     _displayMessage(className, message) {

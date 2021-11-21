@@ -66,6 +66,10 @@
     background-color: var(--blue-hover);
 }
 
+.btn2-grey {
+    background-color: var(--selected);
+}
+
 /* Icon button */
 .btn-icon {
     background-color: white;
