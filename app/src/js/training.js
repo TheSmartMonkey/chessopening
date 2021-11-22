@@ -6,15 +6,55 @@ export class Training extends Chessgame {
         this.openingPgn = ''
         this.mode = 'training'
         this.selectTrainingMode(this.mode)
+        this.initTraining()
         this.training = []
+        this.previousPuzzle = 0
         this.title = 'opening'
         this.color = 'white'
     }
 
+    initTraining() {
+        this.resetAll()
+        switch (this.mode) {
+            case 'training':
+                this._setupTrainingOrientation()
+                break;
+            case 'puzzle':
+                if (this.training.length < 8) {
+                    this._displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
+                } else {
+                    this.updateOrientation(this.color)
+                    this._computerRandomMove()
+                }
+                break;
+            default:
+                this._setupTrainingOrientation()
+                break;
+        }
+    }
+
     //* Overloaded Chessboard methodes
     onDropEvent() {
-        this._trainOpening()
+        this._setDropEventTraining()
         this.updateStatus()
+    }
+
+    _setDropEventTraining() {
+        switch (this.mode) {
+            case 'training':
+                this._trainOpening()
+                break;
+            case 'puzzle':
+                if (this.training.length < 8) {
+                    this._displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
+                } else {
+                    this._puzzleOpening()
+                }
+                break;
+            default:
+                this._trainOpening()
+                break;
+        }
     }
 
     //* Opening
@@ -23,7 +63,7 @@ export class Training extends Chessgame {
         this._setOpeningTitle(this.title)
         this._setOpeningColor(color)
         this._setPngArea(this.openingPgn)
-        this.updateOpeningColor()
+        this._setupTrainingOrientation()
     }
 
     _setOpening(opening) {
@@ -73,7 +113,7 @@ export class Training extends Chessgame {
     }
 
     //* Training
-    updateOpeningColor() {
+    _setupTrainingOrientation() {
         if (this.color === 'black') {
             this.updateOrientation('black')
             this._computerMove()
@@ -93,7 +133,7 @@ export class Training extends Chessgame {
         } else {
             this.resetAll()
             this.updatePosition('start')
-            this.updateOpeningColor()
+            this._setupTrainingOrientation()
         }
 
         this._displayCorrectMessage(moveCorrect, continu)
@@ -142,6 +182,47 @@ export class Training extends Chessgame {
         }
     }
 
+    //* Puzzle
+    _puzzleOpening() {
+        const moveCorrect = this.moves[0] === this.training[this.currentMoveID - 1]
+        const continu = this._continueTraining()
+
+        if (continu && moveCorrect) {
+            this.previousPuzzle = this.currentMoveID
+            this._computerRandomMove()
+        } else {
+            this._stayAtCurrentPosition()
+        }
+
+        this._displayCorrectMessage(moveCorrect, continu)
+    }
+
+    _computerRandomMove() {
+        this.resetAll()
+        this.currentMoveID = this._randomNumberByColor()
+        this._setPlayableMoves()
+        this.updatePosition(this.training[this.currentMoveID])
+        this.currentMoveID++
+    }
+
+    _setPlayableMoves() {
+        while (this.currentMoveID === this.training.length - 1
+            || this.currentMoveID === this.training.length - 2 
+            || this.currentMoveID === 0 
+            || this.currentMoveID === 1
+            || this.currentMoveID === this.previousPuzzle
+        ) this.currentMoveID = this._randomNumberByColor()
+    }
+
+    _randomNumberByColor() {
+        const colorCondition = this.color === 'black' ? 1 : 0;
+        let random = Math.floor(Math.random() * this.training.length)
+        while (random % 2 === colorCondition) {
+            random = Math.floor(Math.random() * this.training.length)
+        }
+        return random
+    }
+
     //* Board Status
     resetAll() {
         this.resetGame()
@@ -160,6 +241,7 @@ export class Training extends Chessgame {
     }
 
     selectTrainingMode(mode) {
+        this.resetAll()
         this.mode = mode
         const trainingButton = document.getElementById('training-mode')
         const puzzleButton = document.getElementById('puzzle-mode')
