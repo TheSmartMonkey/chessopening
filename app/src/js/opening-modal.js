@@ -20,6 +20,7 @@ export class OpeningModal {
     createOpening(title, folder, pgn, color) {
         try {
             this._verifyFormTitle(title)
+            this._verifyFormFolders(folder)
             this._dumpOpening(title, folder, pgn, color)
             this._formOk()
         } catch (error) {
@@ -42,6 +43,18 @@ export class OpeningModal {
         const json = JSON.parse(rawdata)
         this._checkTitleByColors(json.white, title)
         this._checkTitleByColors(json.black, title)
+        if (title.length > 40) {
+            this._formError('error-title', 'Title is too long')
+        }
+    }
+
+    _verifyFormFolders(folder) {
+        if (!folder) {
+            this._formError('error-folder', 'Folder must not be empty')
+        }
+        if (folder.length > 28) {
+            this._formError('error-folder', 'Folder name is too long')
+        }
     }
 
     _checkTitleByColors(jsonColor, title) {
