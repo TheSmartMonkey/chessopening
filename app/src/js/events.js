@@ -17,13 +17,22 @@ let json
 })()
 
 //* Training
+$('#training-mode').on("click", () => {
+    train.selectTrainingMode('training')
+    train.initTraining()
+})
+
+$('#puzzle-mode').on("click", () => {
+    train.selectTrainingMode('puzzle')
+    train.initTraining()
+})
+
 $('#tip').on("click", () => {
     train.giveTip()
 })
 
 $('#reset').on("click", function () {
-    train.resetAll()
-    train.updateOpeningColor()
+    train.initTraining()
 })
 
 $('#png-area').on("click", () => {
@@ -40,7 +49,7 @@ $('#submit-form').on("click", () => {
 })
 
 $('.explorer').on("click", event => {
-    train.resetAll()
+    train.selectTrainingMode('training')
     train.getOpening(json, localStorage.getItem('color'), localStorage.getItem('title'))
     train.updateStatus()
     event.stopPropagation()
