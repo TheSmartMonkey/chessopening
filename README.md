@@ -22,11 +22,17 @@ while trying to learn new chess openings I found it inconvenient to learn by wri
 
 ## How to use it ?
 
-1. You can train you favorite openings trying to do the good moves
+1. Go to https://lichess.org/analysis or https://www.chess.com/analysis and play some moves you want to learn
 
-1. You can create new openings by exporting the PGN (data of chess moves) from lichess or another website : everthing is explained in the modal of the create opening button
+1. Copy the PGN at the buttom of the page
 
-1. By clicking on the links you can load your openings
+1. Create new opening in the chess opening app
+
+1. By clicking on the links in the folders you can load your openings
+
+1. You can then train you favorite openings trying to do the good moves
+
+You can learn with training and puzzles
 
 ## For Developers
 
