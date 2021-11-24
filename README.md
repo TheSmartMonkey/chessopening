@@ -6,7 +6,7 @@ If you like my app and want to support me, I'd appreciate a coffee :)
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/laurentvandelle)
 
-![APP IMAGE](https://raw.githubusercontent.com/TheSmartMonkey/chessopening/main/.github/appImage.PNG)
+![APP IMAGE](https://raw.githubusercontent.com/TheSmartMonkey/chessopening/main/.github/appImagev2.PNG)
 
 follow me on lichess : [LICHESS](https://lichess.org/@/TheSmartMonkey)
 
