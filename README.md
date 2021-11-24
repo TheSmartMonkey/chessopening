@@ -2,6 +2,10 @@
 
 Desktop app that help you learn chess openings and openings variations
 
+If you like my app and want to support me, I'd appreciate a coffee :)
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/laurentvandelle)
+
 ![APP IMAGE](https://raw.githubusercontent.com/TheSmartMonkey/chessopening/main/.github/appImage.PNG)
 
 follow me on lichess : [LICHESS](https://lichess.org/@/TheSmartMonkey)
@@ -22,11 +26,17 @@ while trying to learn new chess openings I found it inconvenient to learn by wri
 
 ## How to use it ?
 
-1. You can train you favorite openings trying to do the good moves
+1. Go to https://lichess.org/analysis or https://www.chess.com/analysis and play some moves you want to learn
 
-1. You can create new openings by exporting the PGN (data of chess moves) from lichess or another website : everthing is explained in the modal of the create opening button
+1. Copy the PGN at the buttom of the page
 
-1. By clicking on the links you can load your openings
+1. Create new opening in the chess opening app
+
+1. By clicking on the links in the folders you can load your openings
+
+1. You can then train you favorite openings trying to do the good moves
+
+You can learn with training and puzzles
 
 ## For Developers
 
