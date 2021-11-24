@@ -9,10 +9,10 @@ function displayFolders(color) {
     let folderButton = ''
 
     for (const folder of folders) {
-        folderButton = '<button class="btn-icon explorer-action" onclick="openFolder(\'' + folder + '\')">' +
-            '<img id="img-' + folder + '" src="assets/folder-close.png" alt="folder" width="24px" height="24px">' +
-            '<span class="folder-text">' + folder + '</span></button>' + 
-            '<div class="explorer" id="folder-' + folder + '" hidden></div>'  
+        folderButton = `<button class="btn-icon explorer-action" onclick="openFolder(\'${folder}\')">` +
+            `<img id="img-${folder}" src="assets/folder-close.png" alt="folder" width="24px" height="24px">` +
+            `<span class="folder-text">${folder}</span></button>` + 
+            `<div class="explorer" id="folder-${folder}" hidden></div>`  
         explorer.innerHTML += folderButton
         _displayOpeningsLinks(color, json, folder)
     }
@@ -25,7 +25,7 @@ function populateDropdownFolders() {
     let dropdownLinks = ''
 
     for (const folder of folders) {
-        dropdownLinks = '<a onclick="dropdownSelectFolder(\'' + folder + '\')">' + folder + '</a>'
+        dropdownLinks = `<a onclick="dropdownSelectFolder(\'${folder}\')">${folder}</a>`
         explorer.innerHTML += dropdownLinks
     }
 }
@@ -37,8 +37,8 @@ function _displayOpeningsLinks(color, json, folder) {
 
     for (const title of openings) {
         openingLink = '<a class="opening-link explorer-action"' +
-            'onclick="setOpening(\'' + title + '\', \'' + color + '\')" ' +
-            'href="#">' + title + '</a><br>'
+            `onclick="setOpening(\'${title}\', \'${color}\')" ` +
+            `href="#">${title}</a><br>`
         explorer.innerHTML += openingLink
     }
 }

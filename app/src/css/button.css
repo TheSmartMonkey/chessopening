@@ -1,15 +1,5 @@
 @import 'varaibles.css';
 
-.btn-icon {
-    border: none;
-    color: black;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-}
-
 .btn1 {
     padding: 16px 50px;
     width: 140px;
@@ -70,9 +60,13 @@
     background-color: var(--selected);
 }
 
-/* Icon button */
 .btn-icon {
-    background-color: white;
     border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    font-size: 14px;
+    background-color: white;
     cursor: pointer;
 }
