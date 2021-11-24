@@ -1,0 +1,12 @@
+{
+  "name": "chessopening",
+  "version": "1.0.0",
+  "description": "Desktop app that help you learn chess openings and openings variations",
+  "scripts": {
+    "clear": "rmdir /s \"chessopening-installers\" \"chessopening-win32-x64\"",
+    "create": "electron-packager app chessopening --platform=win32 --arch=x64 && node build.js"
+  },
+  "repository": "https://github.com/TheSmartMonkey/chessopening",
+  "author": "TheSmartMonkey",
+  "license": "MIT"
+}

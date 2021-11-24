@@ -9,7 +9,8 @@ var settings = {
     // The name of the Author of the app (the name of your company)
     authors: 'TheSmartMonkey',
     // The name of the executable of your built
-    exe: './chessopening.exe'
+    exe: './chessopening.exe',
+    icon: "app/src/assets/chess_piece_knight.ico",
 };
 
 resultPromise = electronInstaller.createWindowsInstaller(settings);
