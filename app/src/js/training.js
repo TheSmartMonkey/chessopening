@@ -18,7 +18,7 @@ export class Training extends Chessgame {
         switch (this.mode) {
             case 'training':
                 this._setupTrainingOrientation()
-                break;
+                break
             case 'puzzle':
                 if (this.training.length < 8) {
                     this._displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
@@ -26,10 +26,10 @@ export class Training extends Chessgame {
                     this.updateOrientation(this.color)
                     this._computerRandomMove()
                 }
-                break;
+                break
             default:
                 this._setupTrainingOrientation()
-                break;
+                break
         }
     }
 
@@ -43,17 +43,17 @@ export class Training extends Chessgame {
         switch (this.mode) {
             case 'training':
                 this._trainOpening()
-                break;
+                break
             case 'puzzle':
                 if (this.training.length < 8) {
                     this._displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
                 } else {
                     this._puzzleOpening()
                 }
-                break;
+                break
             default:
                 this._trainOpening()
-                break;
+                break
         }
     }
 
@@ -215,7 +215,7 @@ export class Training extends Chessgame {
     }
 
     _randomNumberByColor() {
-        const colorCondition = this.color === 'black' ? 1 : 0;
+        const colorCondition = this.color === 'black' ? 1 : 0
         let random = Math.floor(Math.random() * this.training.length)
         while (random % 2 === colorCondition) {
             random = Math.floor(Math.random() * this.training.length)
@@ -250,15 +250,15 @@ export class Training extends Chessgame {
             case 'training':
                 trainingButton.className = 'btn2 btn2-green'
                 puzzleButton.className = 'btn2 btn2-grey'
-                break;
+                break
             case 'puzzle':
                 trainingButton.className = 'btn2 btn2-grey'
                 puzzleButton.className = 'btn2 btn2-green'
-                break;
+                break
             default:
                 trainingButton.className = 'btn2 btn2-green'
                 puzzleButton.className = 'btn2 btn2-grey'
-                break;
+                break
         }
     }
 

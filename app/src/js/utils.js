@@ -10,7 +10,7 @@ export async function createOpeningFile() {
         const exemplePath = path.resolve(__dirname, 'openings-exemple.json')
         fs.copyFile(exemplePath, filePath, (err) => {
             if (err) throw err
-        });
+        })
         await Fs.access(filePath)
     }
 

@@ -24,7 +24,7 @@ export class OpeningModal {
             this._dumpOpening(title, folder, pgn, color)
             this._formOk()
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
     }
 
@@ -77,6 +77,6 @@ export class OpeningModal {
     _formError(element, errorText) {
         const errorPlaceholder = document.getElementById(element)
         errorPlaceholder.innerHTML = errorText
-        throw Error(errorText);
+        throw Error(errorText)
     }
 }
