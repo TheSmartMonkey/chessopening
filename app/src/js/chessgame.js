@@ -168,7 +168,7 @@ export class Chessgame {
             if (move === 'O-O-O' || move === 'O-O') {
                 moves.push(this.color === 'black' ? 'e8' : 'e1')
             } else {
-                const newMove = move.substr(move.length - 2);
+                const newMove = move.substr(move.length - 2)
                 moves.push(newMove)
             }
         }
