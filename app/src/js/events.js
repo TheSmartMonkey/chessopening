@@ -1,6 +1,5 @@
 import { Training } from "./training.js"
 import { OpeningModal } from "./opening-modal.js"
-import { createOpeningFile } from "./utils.js"
 
 const fs = require('fs')
 const path = require('path')
@@ -9,12 +8,11 @@ const path = require('path')
 const modal = new OpeningModal()
 const train = new Training('board')
 
-let json
-(async function () {
-    json = await createOpeningFile()
-    train.getOpening(json, train.color, '')
-    train.updateStatus()
-})()
+const filePath = path.resolve(__dirname, 'openings.json')
+const rawdata = fs.readFileSync(filePath)
+const json = JSON.parse(rawdata)
+train.getOpening(json, train.color, '')
+train.updateStatus()
 
 //* Training
 $('#training-mode').on("click", () => {

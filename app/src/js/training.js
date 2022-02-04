@@ -59,7 +59,7 @@ export class Training extends Chessgame {
 
     //* Opening
     getOpening(json, color, title) {
-        title === '' ? this._setOpening(json.white[0]) : this._findOpening(json[color], title)
+        title === '' && json.white[0] ? this._setOpening(json.white[0]) : this._findOpening(json[color], title)
         this._setOpeningTitle(this.title)
         this._setOpeningColor(color)
         this._setPngArea(this.openingPgn)

@@ -6,7 +6,7 @@ const path = require('path')
 //* Display folder/links
 function displayFolders(color) {
     const explorer = document.getElementById('explorer-' + color)
-    const json = _getOpeningFile()
+    const json = _readOpeningFile()
     const folders = _getFolders(color, json)
     let folderButton = ''
 
@@ -22,7 +22,7 @@ function displayFolders(color) {
 
 function populateDropdownFolders() {
     const explorer = document.getElementById('dropdown-content')
-    const json = _getOpeningFile()
+    const json = _readOpeningFile()
     const folders = [..._getFolders('white', json), ..._getFolders('black', json)]
     let dropdownLinks = ''
 
@@ -46,17 +46,8 @@ function _displayOpeningsLinks(color, json, folder) {
 }
 
 //* Opening file parsing
-function _getOpeningFile() {
-    return _openingFileExist() ? _readOpeningFile('openings.json') : _readOpeningFile('openings-exemple.json')
-}
-
-function _openingFileExist() {
-    const filePath = path.resolve(__dirname, 'openings.json')
-    return fs.existsSync(filePath)
-}
-
-function _readOpeningFile(fileName) {
-    const rawdata = fs.readFileSync(path.resolve(__dirname, fileName))
+function _readOpeningFile() {
+    const rawdata = fs.readFileSync(path.resolve(__dirname, 'openings.json'))
     return JSON.parse(rawdata)
 }
 
