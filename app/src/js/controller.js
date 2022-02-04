@@ -1,5 +1,6 @@
 import { Training } from "./training.js"
 import { OpeningModal } from "./opening-modal.js"
+import { getOpenings } from "./utils.js"
 
 const fs = require('fs')
 const path = require('path')
@@ -8,9 +9,7 @@ const path = require('path')
 const modal = new OpeningModal()
 const train = new Training('board')
 
-const filePath = path.resolve(__dirname, 'openings.json')
-const rawdata = fs.readFileSync(filePath)
-const json = JSON.parse(rawdata)
+const json = getOpenings()
 train.getOpening(json, train.color, '')
 train.updateStatus()
 
@@ -21,8 +20,13 @@ $('#training-mode').on("click", () => {
 })
 
 $('#puzzle-mode').on("click", () => {
-    train.selectTrainingMode('puzzle')
-    train.initTraining()
+    if (train.training.length < 8) {
+        train.displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
+        alert('OPENING IS TO SMALL TO PLAY PUZZLE')
+    } else {
+        train.selectTrainingMode('puzzle')
+        train.initTraining()
+    }
 })
 
 $('#tip').on("click", () => {
