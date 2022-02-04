@@ -20,12 +20,8 @@ export class Training extends Chessgame {
                 this._setupTrainingOrientation()
                 break
             case 'puzzle':
-                if (this.training.length < 8) {
-                    this._displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
-                } else {
-                    this.updateOrientation(this.color)
-                    this._computerRandomMove()
-                }
+                this.updateOrientation(this.color)
+                this._computerRandomMove()
                 break
             default:
                 this._setupTrainingOrientation()
@@ -46,7 +42,7 @@ export class Training extends Chessgame {
                 break
             case 'puzzle':
                 if (this.training.length < 8) {
-                    this._displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
+                    this.displayMessage('action not-correct flex-center', 'OPENING IS TO SMALL TO PLAY PUZZLE')
                 } else {
                     this._puzzleOpening()
                 }
@@ -59,7 +55,7 @@ export class Training extends Chessgame {
 
     //* Opening
     getOpening(json, color, title) {
-        title === '' ? this._setOpening(json.white[0]) : this._findOpening(json[color], title)
+        title === '' && json.white[0] ? this._setOpening(json.white[0]) : this._findOpening(json[color], title)
         this._setOpeningTitle(this.title)
         this._setOpeningColor(color)
         this._setPngArea(this.openingPgn)
@@ -174,11 +170,11 @@ export class Training extends Chessgame {
 
     _displayCorrectMessage(moveCorrect, continu) {
         if (moveCorrect && !continu) {
-            this._displayMessage('action correct flex-center', 'CONGRATULATION')
+            this.displayMessage('action correct flex-center', 'CONGRATULATION')
         } else if (moveCorrect) {
-            this._displayMessage('action correct flex-center', 'CORRECT')
+            this.displayMessage('action correct flex-center', 'CORRECT')
         } else {
-            this._displayMessage('action not-correct flex-center', 'NOT CORRECT')
+            this.displayMessage('action not-correct flex-center', 'NOT CORRECT')
         }
     }
 
@@ -233,7 +229,7 @@ export class Training extends Chessgame {
         this.currentMoveID = 0
 
         // Reset training message
-        this._displayMessage('action', 'PLAY A MOVE')
+        this.displayMessage('action', 'PLAY A MOVE')
 
         // Reset config
         this.config.position = 'start'
@@ -262,7 +258,7 @@ export class Training extends Chessgame {
         }
     }
 
-    _displayMessage(className, message) {
+    displayMessage(className, message) {
         const moveStatus = document.getElementById('move-status')
         moveStatus.className = className
         moveStatus.innerHTML = message
