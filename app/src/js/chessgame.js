@@ -151,7 +151,7 @@ export class Chessgame {
     giveTip() {
         const lastMoveID = this.currentMoveID ? this.currentMoveID : 0
         this._removeAllHighlightMoves()
-        this._highlightMove(this._getMovesPosition(lastMoveID), 'white')
+        this._highlightMove(this._getMovesPosition(lastMoveID, this.color), 'white')
     }
 
     _highlightMove(position, color) {
@@ -162,11 +162,11 @@ export class Chessgame {
         this.$board.find('.square-55d63').removeClass('highlight-white')
     }
 
-    _getMovesPosition(moveID) {
+    _getMovesPosition(moveID, color) {
         const moves = []
         for (const move of this.allMoves) {
             if (move === 'O-O-O' || move === 'O-O') {
-                moves.push(this.color === 'black' ? 'e8' : 'e1')
+                moves.push(color === 'black' ? 'e8' : 'e1')
             } else {
                 const removePLus = move.replace('+', '')
                 const newMove = removePLus.substr(removePLus.length - 2)

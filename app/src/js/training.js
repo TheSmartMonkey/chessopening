@@ -53,6 +53,11 @@ export class Training extends Chessgame {
         }
     }
 
+    _highlightOpponentMove() {
+        const opponentColor = this.color === 'black' ? 'white' : 'black'
+        if (this.currentMoveID) this._highlightMove(this._getMovesPosition(this.currentMoveID - 1, opponentColor), 'black')
+    }
+
     //* Opening
     getOpening(json, color, title) {
         title === '' && json.white[0] ? this._setOpening(json.white[0]) : this._findOpening(json[color], title)
@@ -144,7 +149,7 @@ export class Training extends Chessgame {
         this.moves.push(computerMove)
         this.currentMoveID++
         this.updatePosition(computerMove)
-        if (this.currentMoveID) this._highlightMove(this._getMovesPosition(this.currentMoveID - 1), 'black')
+        this._highlightOpponentMove()
     }
 
     _stayAtCurrentPosition() {
@@ -200,7 +205,7 @@ export class Training extends Chessgame {
         this._setPlayableMoves()
         this.updatePosition(this.training[this.currentMoveID])
         this.currentMoveID++
-        if (this.currentMoveID) this._highlightMove(this._getMovesPosition(this.currentMoveID - 1), 'black')
+        this._highlightOpponentMove()
     }
 
     _setPlayableMoves() {
