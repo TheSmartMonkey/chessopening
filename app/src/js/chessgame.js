@@ -155,7 +155,7 @@ export class Chessgame {
     }
 
     _highlightMove(position) {
-        this.$board.find('.square-' + position).addClass('highlight-white')
+        this.$board.find(`.square-${position}`).addClass('highlight-white')
     }
 
     _removeAllHighlightMoves() {
@@ -168,7 +168,8 @@ export class Chessgame {
             if (move === 'O-O-O' || move === 'O-O') {
                 moves.push(this.color === 'black' ? 'e8' : 'e1')
             } else {
-                const newMove = move.substr(move.length - 2)
+                const removePLus = move.replace('+', '')
+                const newMove = removePLus.substr(removePLus.length - 2)
                 moves.push(newMove)
             }
         }
