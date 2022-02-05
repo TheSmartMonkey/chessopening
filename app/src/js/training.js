@@ -144,6 +144,7 @@ export class Training extends Chessgame {
         this.moves.push(computerMove)
         this.currentMoveID++
         this.updatePosition(computerMove)
+        if (this.currentMoveID) this._highlightMove(this._getMovesPosition(this.currentMoveID - 1), 'black')
     }
 
     _stayAtCurrentPosition() {
@@ -199,6 +200,7 @@ export class Training extends Chessgame {
         this._setPlayableMoves()
         this.updatePosition(this.training[this.currentMoveID])
         this.currentMoveID++
+        if (this.currentMoveID) this._highlightMove(this._getMovesPosition(this.currentMoveID - 1), 'black')
     }
 
     _setPlayableMoves() {
