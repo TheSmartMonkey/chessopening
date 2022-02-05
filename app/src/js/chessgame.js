@@ -151,11 +151,11 @@ export class Chessgame {
     giveTip() {
         const lastMoveID = this.currentMoveID ? this.currentMoveID : 0
         this._removeAllHighlightMoves()
-        this._highlightMove(this._getMovesPosition(lastMoveID))
+        this._highlightMove(this._getMovesPosition(lastMoveID), 'white')
     }
 
-    _highlightMove(position) {
-        this.$board.find(`.square-${position}`).addClass('highlight-white')
+    _highlightMove(position, color) {
+        this.$board.find(`.square-${position}`).addClass(`highlight-${color}`)
     }
 
     _removeAllHighlightMoves() {
